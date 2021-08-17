@@ -1,13 +1,13 @@
 #!/bin/bash
 
-MYSQL_USER="julien"
-MYSQL_PASSWORD="aaaa"
+MYSQL_USER="explorateur"
+MYSQL_PASSWORD="Ereul9Aeng"
 MYSQL_HOST="localhost"
-WORDPRESS_BDD="sh_ocooking"
+WORDPRESS_BDD="monPotager"
 
-WORDPRESS_URL="http://localhost/cours/sheherazade/ocooking/back/public"
+WORDPRESS_URL="http://ec2-100-25-153-241.compute-1.amazonaws.com/public"
 
-WORDPRESS_SITE_NAME="oCooking"
+WORDPRESS_SITE_NAME="monPotager"
 WORDPRESS_ADMIN_NAME="admin"
 WORDPRESS_ADMIN_PASSWORD="admin"
 WORDPRESS_ADMIN_EMAIL="admin@mail.com"
