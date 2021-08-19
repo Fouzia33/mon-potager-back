@@ -16,3 +16,8 @@ public/content/*
 public/content/plugins/*
 !public/content/plugins
 
+public/content/plugins/monpotager
+!public/content/plugins/monpotager
+
+vendor-monpotager
+

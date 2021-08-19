@@ -17,6 +17,53 @@ class Plugin {
 
         add_action('init', [$this, 'season_Taxonomy']);
 
+        
+        //add_action( 'create_term', 'my_create', 10, 3 );
+    }
+
+    public function activate()
+    {
+        //! Les roles doivent etre déclrarés lors de l'ACTIVATION DU PLUGIN
+        $this->registerGardenerRole();
+        //$this->createPlanteCPT();
+
+    }
+
+    public function deactivate(){
+         //! Les roles doivent etre supprimés lors de la DESACTIVATIONDU PLUGIN
+        remove_role('gardener');
+    }
+
+    //! ROLES
+    public function registerGardenerRole()
+    {
+        // add_role https://developer.wordpress.org/reference/functions/add_role/
+        add_role(
+            //identifiant
+            'gardener',
+            //libellé
+            'Jardinier',
+            //Liste des autorisations
+            [
+                'delete_gardeners' => false,
+                'delete_others_gardeners' => false,
+                'delete_private_gardeners' => false,
+                'delete_published_gardeners' => false,
+                'edit_gardeners' => true,
+                'edit_others_gardeners' => false,
+                'edit_private_gardeners' => false,
+                'edit_published_gardeners' => true,
+                'publish_gardeners' => true,
+                'read_private_gardeners' => false,
+
+            ]
+        );
+
+        // je cible un role :
+        // $developerRole = get_role('developer');
+        // $developerRole->add_cap('edit_customers');
+
+
     }
 
     /**
@@ -95,4 +142,5 @@ class Plugin {
             ],
         );
     }
+
 }
