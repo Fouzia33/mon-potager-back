@@ -11,7 +11,11 @@ class Plugin {
     {
         add_action('init', [$this, 'createPlanteCPT']);
 
-        add_action('init', [$this, 'createPlante_TypeTaxonomy']);
+        add_action('init', [$this, 'createPlanteTypeTaxonomy']);
+
+        add_action('init', [$this, 'regions_Taxonomy']);
+
+        add_action('init', [$this, 'season_Taxonomy']);
 
     }
 
@@ -50,13 +54,41 @@ class Plugin {
     /**
      * Crée la taxonomie 'Ingrédient', liée au cpt Recipe
      */
-    public function createPlante_TypeTaxonomy()
+    public function createPlanteTypeTaxonomy()
     {
         register_taxonomy(
             'plante_type',
             ['plante'],
             [
                 'label' => 'Type de plante',
+                'show_in_rest'  => true,
+                'hierarchical'  => false,
+                'public'        => true,
+            ],
+        );
+    }
+
+    public function regions_Taxonomy()
+    {
+        register_taxonomy(
+            'regions',
+            ['plante'],
+            [
+                'label' => 'Régions',
+                'show_in_rest'  => true,
+                'hierarchical'  => false,
+                'public'        => true,
+            ],
+        );
+    }
+
+    public function season_Taxonomy()
+    {
+        register_taxonomy(
+            'season',
+            ['plante'],
+            [
+                'label' => 'Saisons',
                 'show_in_rest'  => true,
                 'hierarchical'  => false,
                 'public'        => true,
