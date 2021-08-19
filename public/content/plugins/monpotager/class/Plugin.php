@@ -10,6 +10,9 @@ class Plugin {
     public function __construct()
     {
         add_action('init', [$this, 'createPlanteCPT']);
+
+        add_action('init', [$this, 'createPlante_TypeTaxonomy']);
+
     }
 
     /**
@@ -40,9 +43,24 @@ class Plugin {
                 'title',
                 'thumbnail',
                 'editor',
-                'author',
-                'excerpt'
             ],
         ]);
+    }
+
+    /**
+     * Crée la taxonomie 'Ingrédient', liée au cpt Recipe
+     */
+    public function createPlante_TypeTaxonomy()
+    {
+        register_taxonomy(
+            'plante_type',
+            ['plante'],
+            [
+                'label' => 'Type de plante',
+                'show_in_rest'  => true,
+                'hierarchical'  => false,
+                'public'        => true,
+            ],
+        );
     }
 }
