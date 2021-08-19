@@ -186,7 +186,7 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (101,	'fresh_site',	'1',	'yes'),
 (102,	'widget_block',	'a:6:{i:2;a:1:{s:7:\"content\";s:19:\"<!-- wp:search /-->\";}i:3;a:1:{s:7:\"content\";s:154:\"<!-- wp:group --><div class=\"wp-block-group\"><!-- wp:heading --><h2>Recent Posts</h2><!-- /wp:heading --><!-- wp:latest-posts /--></div><!-- /wp:group -->\";}i:4;a:1:{s:7:\"content\";s:227:\"<!-- wp:group --><div class=\"wp-block-group\"><!-- wp:heading --><h2>Recent Comments</h2><!-- /wp:heading --><!-- wp:latest-comments {\"displayAvatar\":false,\"displayDate\":false,\"displayExcerpt\":false} /--></div><!-- /wp:group -->\";}i:5;a:1:{s:7:\"content\";s:146:\"<!-- wp:group --><div class=\"wp-block-group\"><!-- wp:heading --><h2>Archives</h2><!-- /wp:heading --><!-- wp:archives /--></div><!-- /wp:group -->\";}i:6;a:1:{s:7:\"content\";s:150:\"<!-- wp:group --><div class=\"wp-block-group\"><!-- wp:heading --><h2>Categories</h2><!-- /wp:heading --><!-- wp:categories /--></div><!-- /wp:group -->\";}s:12:\"_multiwidget\";i:1;}',	'yes'),
 (103,	'sidebars_widgets',	'a:3:{s:19:\"wp_inactive_widgets\";a:0:{}s:9:\"sidebar-1\";a:5:{i:0;s:7:\"block-2\";i:1;s:7:\"block-3\";i:2;s:7:\"block-4\";i:3;s:7:\"block-5\";i:4;s:7:\"block-6\";}s:13:\"array_version\";i:3;}',	'yes'),
-(104,	'cron',	'a:7:{i:1629367582;a:1:{s:34:\"wp_privacy_delete_old_export_files\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:6:\"hourly\";s:4:\"args\";a:0:{}s:8:\"interval\";i:3600;}}}i:1629392781;a:1:{s:32:\"recovery_mode_clean_expired_keys\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1629392782;a:4:{s:18:\"wp_https_detection\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}s:16:\"wp_version_check\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}s:17:\"wp_update_plugins\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}s:16:\"wp_update_themes\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}}i:1629392815;a:2:{s:19:\"wp_scheduled_delete\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}s:25:\"delete_expired_transients\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1629392820;a:1:{s:30:\"wp_scheduled_auto_draft_delete\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1629911181;a:1:{s:30:\"wp_site_health_scheduled_check\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:6:\"weekly\";s:4:\"args\";a:0:{}s:8:\"interval\";i:604800;}}}s:7:\"version\";i:2;}',	'yes'),
+(104,	'cron',	'a:7:{i:1629371182;a:1:{s:34:\"wp_privacy_delete_old_export_files\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:6:\"hourly\";s:4:\"args\";a:0:{}s:8:\"interval\";i:3600;}}}i:1629392781;a:1:{s:32:\"recovery_mode_clean_expired_keys\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1629392782;a:4:{s:18:\"wp_https_detection\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}s:16:\"wp_version_check\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}s:17:\"wp_update_plugins\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}s:16:\"wp_update_themes\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}}i:1629392815;a:2:{s:19:\"wp_scheduled_delete\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}s:25:\"delete_expired_transients\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1629392820;a:1:{s:30:\"wp_scheduled_auto_draft_delete\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1629911181;a:1:{s:30:\"wp_site_health_scheduled_check\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:6:\"weekly\";s:4:\"args\";a:0:{}s:8:\"interval\";i:604800;}}}s:7:\"version\";i:2;}',	'yes'),
 (105,	'widget_pages',	'a:1:{s:12:\"_multiwidget\";i:1;}',	'yes'),
 (106,	'widget_calendar',	'a:1:{s:12:\"_multiwidget\";i:1;}',	'yes'),
 (107,	'widget_archives',	'a:1:{s:12:\"_multiwidget\";i:1;}',	'yes'),
@@ -258,7 +258,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (2,	3,	'_wp_page_template',	'default'),
 (3,	5,	'_edit_lock',	'1629361021:1'),
 (4,	10,	'_edit_last',	'1'),
-(5,	10,	'_edit_lock',	'1629365148:1'),
+(5,	10,	'_edit_lock',	'1629367292:1'),
 (6,	1,	'_wp_trash_meta_status',	'publish'),
 (7,	1,	'_wp_trash_meta_time',	'1629364738'),
 (8,	1,	'_wp_desired_post_slug',	'hello-world'),
@@ -306,7 +306,7 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 (7,	1,	'2021-08-19 08:22:08',	'0000-00-00 00:00:00',	'',	'Auto Draft',	'',	'auto-draft',	'closed',	'closed',	'',	'',	'',	'',	'2021-08-19 08:22:08',	'0000-00-00 00:00:00',	'',	0,	'http://localhost/Trinity/Apo/projet-mon-potager-back/public/?post_type=plante&p=7',	0,	'plante',	'',	0),
 (8,	1,	'2021-08-19 08:23:02',	'0000-00-00 00:00:00',	'',	'Auto Draft',	'',	'auto-draft',	'closed',	'closed',	'',	'',	'',	'',	'2021-08-19 08:23:02',	'0000-00-00 00:00:00',	'',	0,	'http://localhost/Trinity/Apo/projet-mon-potager-back/public/?post_type=plante&p=8',	0,	'plante',	'',	0),
 (9,	1,	'2021-08-19 08:23:19',	'0000-00-00 00:00:00',	'',	'Auto Draft',	'',	'auto-draft',	'closed',	'closed',	'',	'',	'',	'',	'2021-08-19 08:23:19',	'0000-00-00 00:00:00',	'',	0,	'http://localhost/Trinity/Apo/projet-mon-potager-back/public/?post_type=plante&p=9',	0,	'plante',	'',	0),
-(10,	1,	'2021-08-19 09:16:56',	'2021-08-19 09:16:56',	'J\'adore les tomates, une belle tomate bien ronde et bien rouge, couleur sang parce que j\'adore le sang',	'Tomate',	'',	'publish',	'closed',	'closed',	'',	'tomate',	'',	'',	'2021-08-19 09:16:56',	'2021-08-19 09:16:56',	'',	0,	'http://localhost/Trinity/Apo/projet-mon-potager-back/public/?post_type=plante&#038;p=10',	0,	'plante',	'',	0),
+(10,	1,	'2021-08-19 09:16:56',	'2021-08-19 09:16:56',	'J\'adore les tomates, une belle tomate bien ronde et bien rouge',	'Tomate',	'',	'publish',	'closed',	'closed',	'',	'tomate',	'',	'',	'2021-08-19 10:01:32',	'2021-08-19 10:01:32',	'',	0,	'http://localhost/Trinity/Apo/projet-mon-potager-back/public/?post_type=plante&#038;p=10',	0,	'plante',	'',	0),
 (11,	1,	'2021-08-19 09:18:58',	'2021-08-19 09:18:58',	'<!-- wp:paragraph -->\n<p>Welcome to WordPress. This is your first post. Edit or delete it, then start writing!</p>\n<!-- /wp:paragraph -->',	'Hello world!',	'',	'inherit',	'closed',	'closed',	'',	'1-revision-v1',	'',	'',	'2021-08-19 09:18:58',	'2021-08-19 09:18:58',	'',	1,	'http://localhost/Trinity/Apo/projet-mon-potager-back/public/?p=11',	0,	'revision',	'',	0);
 
 DROP TABLE IF EXISTS `wp_termmeta`;
@@ -333,7 +333,10 @@ CREATE TABLE `wp_terms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `wp_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
-(1,	'Uncategorized',	'uncategorized',	0);
+(1,	'Uncategorized',	'uncategorized',	0),
+(20,	'Plante',	'plante',	0),
+(21,	'Centre',	'centre',	0),
+(22,	'Janvier',	'janvier',	0);
 
 DROP TABLE IF EXISTS `wp_term_relationships`;
 CREATE TABLE `wp_term_relationships` (
@@ -346,9 +349,9 @@ CREATE TABLE `wp_term_relationships` (
 
 INSERT INTO `wp_term_relationships` (`object_id`, `term_taxonomy_id`, `term_order`) VALUES
 (1,	1,	0),
-(10,	2,	0),
-(10,	5,	0),
-(10,	6,	0);
+(10,	18,	0),
+(10,	19,	0),
+(10,	20,	0);
 
 DROP TABLE IF EXISTS `wp_term_taxonomy`;
 CREATE TABLE `wp_term_taxonomy` (
@@ -364,7 +367,10 @@ CREATE TABLE `wp_term_taxonomy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `wp_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `description`, `parent`, `count`) VALUES
-(1,	1,	'category',	'',	0,	0);
+(1,	1,	'category',	'',	0,	0),
+(18,	20,	'plante_type',	'',	0,	1),
+(19,	21,	'regions',	'',	0,	1),
+(20,	22,	'season',	'',	0,	1);
 
 DROP TABLE IF EXISTS `wp_usermeta`;
 CREATE TABLE `wp_usermeta` (
@@ -417,4 +423,4 @@ CREATE TABLE `wp_users` (
 INSERT INTO `wp_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES
 (1,	'admin',	'$P$BDrmzLxr7gn31RCJDKZsRJ4Ex22HvR/',	'admin',	'admin@admin.fr',	'http://localhost/Trinity/Apo/projet-mon-potager-back/public/wp',	'2021-08-17 17:06:21',	'',	0,	'admin');
 
--- 2021-08-19 09:32:34
+-- 2021-08-19 10:10:38
