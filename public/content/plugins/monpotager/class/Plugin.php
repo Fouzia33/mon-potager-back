@@ -11,8 +11,7 @@ class Plugin
     public function __construct()
     {
         $maSemi = new Meta_semi();
-        $maPlantation = new Meta_Planting();
-        $maRecolte = new Meta_Harvest();
+        $userPlanting = new User_planting;
 
         add_action('init', [$this, 'createPlanteCPT']);
 
@@ -25,9 +24,21 @@ class Plugin
         add_action('add_meta_boxes', [$maSemi, 'metaboxesloadSemi']);
     
         add_action('save_post', [$maSemi, 'save_metaboxes']);
-        add_action('rest_api_init', [$maSemi, 'api_meta']);
+        
 
-        //add_action('add_meta_boxes', [$this, 'metaboxes_Plantation']);
+        add_action('rest_api_init', [$this, 'api_meta']);
+
+
+        add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
+        add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
+
+        
+
+        
+
+
+
+        
     }
 
     /**
@@ -110,7 +121,27 @@ class Plugin
 
     
 
-    
+    public function api_meta()
+    {
+
+        register_rest_field(
+            'plante',
+            'periode_plante',
+            array(
+                'get_callback' => [$this,'get_post_meta_for_api'],
+                'schema' => null,
+            )
+        );
+    }
+
+    public function get_post_meta_for_api($object)
+    {
+        
+        $post_id = $object['id'];
+        //var_dump(get_post_meta($post_id));die;
+        
+        return get_post_meta($post_id);
+    }
 
 
     
