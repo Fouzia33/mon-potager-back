@@ -17,10 +17,10 @@ class Meta_planting
         $value = get_post_meta($post->ID, 'fin_plantation', true);
 
 
-        echo '<label for="start_planting">Début plantaton : </label>';
+        echo '<label for="start_planting">Début plantation : </label>';
         echo '<input id="start_planting" type="text" name="start_planting" value="' . $val . '" />';
         echo '<br>';
-        echo '<label for="end_planting">Fin planting : </label>';
+        echo '<label for="end_planting">Fin plantation : </label>';
         echo '<input id="end_planting" type="text" name="end_planting" value="' . $value . '" />';
     }
 
@@ -42,27 +42,7 @@ class Meta_planting
         }
     }
 
-    public function api_metaPlanting()
-    {
-        register_rest_field(
-            'plante',
-            'plantation',
-            array(
-                'get_callback' => [$this,'get_post_meta_for_api_planting'],
-                'schema' => null,
-            )
-        );
-
-    }
-
-    public function get_post_meta_for_api_planting($object)
-    {
-        
-        $post_id = $object['id'];
-        //var_dump(get_post_meta($post_id));die;
-        
-        return get_post_meta($post_id);
-    }
+    
 
 
 

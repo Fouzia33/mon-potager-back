@@ -3,6 +3,7 @@
 namespace monPotager;
 use monPotager\Meta_semi;
 use monPotager\Meta_planting;
+use monPotager\Meta_harvest;
 
 class Plugin
 {
@@ -14,6 +15,7 @@ class Plugin
     {
         $mySemi = new Meta_semi();
         $myPlanting = new Meta_planting;
+        $myHarvest = new Meta_harvest;
 
         add_action('init', [$this, 'createPlanteCPT']);
 
@@ -25,14 +27,19 @@ class Plugin
 
         add_action('add_meta_boxes', [$mySemi, 'metaboxes_StartSemi']);
         add_action('save_post', [$mySemi, 'save_metaboxes']);
-        add_action('rest_api_init', [$mySemi, 'api_meta']);
+
+        add_action('rest_api_init', [$this, 'api_meta']);
 
         add_action('add_meta_boxes', [$myPlanting, 'metaboxes_StartPlanting']);
         add_action('save_post', [$myPlanting, 'saveMetaboxesPlanting']);
-        add_action('rest_api_init', [$myPlanting, 'api_metaPlanting']);
         
 
-        //add_action('add_meta_boxes', [$this, 'metaboxes_Plantation']);
+        add_action('add_meta_boxes', [$myHarvest, 'metaboxes_StartHarvest']);
+        add_action('save_post', [$myHarvest, 'saveMetaboxesHarvest']);
+        
+        
+
+        
 
 
 
@@ -119,7 +126,27 @@ class Plugin
 
     
 
-    
+    public function api_meta()
+    {
+
+        register_rest_field(
+            'plante',
+            'periode_plante',
+            array(
+                'get_callback' => [$this,'get_post_meta_for_api'],
+                'schema' => null,
+            )
+        );
+    }
+
+    public function get_post_meta_for_api($object)
+    {
+        
+        $post_id = $object['id'];
+        //var_dump(get_post_meta($post_id));die;
+        
+        return get_post_meta($post_id);
+    }
 
 
     
