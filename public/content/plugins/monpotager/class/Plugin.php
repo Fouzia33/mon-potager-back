@@ -2,7 +2,7 @@
 
 namespace monPotager;
 use monPotager\Meta_semi;
-
+use monPotager\Meta_planting;
 
 class Plugin
 {
@@ -12,7 +12,9 @@ class Plugin
      */
     public function __construct()
     {
-        $maSemi = new Meta_semi();
+        $mySemi = new Meta_semi();
+        $myPlanting = new Meta_planting;
+
         add_action('init', [$this, 'createPlanteCPT']);
 
         add_action('init', [$this, 'createPlanteTypeTaxonomy']);
@@ -21,11 +23,13 @@ class Plugin
 
         add_action('init', [$this, 'season_Taxonomy']);
 
-        add_action('add_meta_boxes', [$maSemi, 'metaboxes_StartSemi']);
-    
-        add_action('save_post', [$maSemi, 'save_metaboxes']);
-        add_action('rest_api_init', [$maSemi, 'api_meta']);
+        add_action('add_meta_boxes', [$mySemi, 'metaboxes_StartSemi']);
+        add_action('save_post', [$mySemi, 'save_metaboxes']);
+        add_action('rest_api_init', [$mySemi, 'api_meta']);
 
+        add_action('add_meta_boxes', [$myPlanting, 'metaboxes_StartPlanting']);
+        add_action('save_post', [$myPlanting, 'saveMetaboxesPlanting']);
+        add_action('rest_api_init', [$myPlanting, 'api_metaPlanting']);
         
 
         //add_action('add_meta_boxes', [$this, 'metaboxes_Plantation']);
