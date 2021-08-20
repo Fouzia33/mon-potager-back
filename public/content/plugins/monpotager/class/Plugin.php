@@ -1,16 +1,18 @@
 <?php
 
 namespace monPotager;
+use monPotager\Meta_semi;
+
 
 class Plugin
 {
-
     /**
      * Constructeur de la classe Plugin
      * rajoute les hooks pour créer les taxo et CPT
      */
     public function __construct()
     {
+        $maSemi = new Meta_semi();
         add_action('init', [$this, 'createPlanteCPT']);
 
         add_action('init', [$this, 'createPlanteTypeTaxonomy']);
@@ -19,11 +21,18 @@ class Plugin
 
         add_action('init', [$this, 'season_Taxonomy']);
 
-        add_action('add_meta_boxes', [$this, 'metaboxes_StartSemi']);
+        add_action('add_meta_boxes', [$maSemi, 'metaboxes_StartSemi']);
+    
+        add_action('save_post', [$maSemi, 'save_metaboxes']);
+        add_action('rest_api_init', [$maSemi, 'api_meta']);
 
-        add_action('save_post', [$this, 'save_metaboxes']);
+        
 
-        //add_action('rest_api_init', [$this, 'api_meta']);
+        //add_action('add_meta_boxes', [$this, 'metaboxes_Plantation']);
+
+
+
+        
     }
 
     /**
@@ -104,70 +113,23 @@ class Plugin
     }
 
 
-    public function metaboxes_StartSemi()
-    {
+    
 
-        add_meta_box('id', 'Semi', [$this, 'start_semi'], 'plante', 'side');
-    }
-
-    public function start_semi($post)
-    {
-        $val = get_post_meta($post->ID, 'debut_semi', true);
-        $value = get_post_meta($post->ID, 'fin_semi', true);
+    
 
 
-        echo '<label for="start_semi">Début semi : </label>';
-        echo '<input id="start_semi" type="text" name="start_semi" value="' . $val . '" />';
-        echo '<br>';
-        echo '<label for="end_semi">Fin semi : </label>';
-        echo '<input id="end_semi" type="text" name="end_semi" value="' . $value . '" />';
-    }
+    
 
-
-    public function save_metaboxes($post_ID)
-    {
-
-
-        if (isset($_POST['start_semi'])&& $_POST['start_semi'] !=='') {
-            update_post_meta($post_ID, 'debut_semi', esc_html($_POST['start_semi']));
-        } else {
-            
-            delete_post_meta($post_ID, 'debut_semi');
-            
-        }
-
-        if (isset($_POST['end_semi'])&& $_POST['end_semi'] !=='') {
-            update_post_meta($post_ID, 'fin_semi', esc_html($_POST['end_semi']));
-        } else {
-            
-            delete_post_meta($post_ID, 'fin_semi');
-            
-        }
-
-
-    }
-
-
-
-    // public function api_meta()
+    // public function metaboxes_Plantation()
     // {
 
-    //     register_rest_field(
-    //         'plante',
-    //         'jours_recolte',
-    //         array(
-    //             'get_callback' => 'get_post_meta_for_api',
-    //             'schema' => null,
-    //         )
-    //     );
+    //     add_meta_box('id_plantation', 'Plantation', [$this, 'start_plantation'], 'plante', 'side');
     // }
 
-    // public function get_post_meta_for_api($object)
-    // {
-    //     //get the id of the post object array
-    //     $post_id = $object['id'];
+    
 
-    //     //return the post meta
-    //     return get_post_meta($post_id);
-    // }
+
+
+    
+    
 }
