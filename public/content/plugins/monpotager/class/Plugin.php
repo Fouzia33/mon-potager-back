@@ -4,6 +4,7 @@ namespace monPotager;
 use monPotager\Meta_semi;
 use monPotager\Meta_planting;
 use monPotager\Meta_harvest;
+use monPotager\User_semi;
 
 class Plugin
 {
@@ -16,6 +17,8 @@ class Plugin
         $mySemi = new Meta_semi();
         $myPlanting = new Meta_planting;
         $myHarvest = new Meta_harvest;
+        $userSemi = new User_semi;
+        $userPlanting = new User_planting;
 
         add_action('init', [$this, 'createPlanteCPT']);
 
@@ -36,7 +39,13 @@ class Plugin
 
         add_action('add_meta_boxes', [$myHarvest, 'metaboxes_StartHarvest']);
         add_action('save_post', [$myHarvest, 'saveMetaboxesHarvest']);
-        
+
+        add_action('add_meta_boxes', [$userSemi, 'user_Metaboxes_Semi']);
+        add_action('save_post', [$userSemi, 'saveUserMetaboxesPeriodeSemi']);
+
+        add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
+        add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
+
         
 
         
