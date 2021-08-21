@@ -25,20 +25,10 @@ class Plugin
     
         add_action('save_post', [$maSemi, 'save_metaboxes']);
         
-
         add_action('rest_api_init', [$this, 'api_meta']);
-
 
         add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
         add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
-
-        
-
-        
-
-
-
-        
     }
 
     /**
