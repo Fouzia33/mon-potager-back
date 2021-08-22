@@ -16,3 +16,4 @@ public/content/*
 public/content/plugins/*
 !public/content/plugins
 
+!public/content/plugins/monpotager

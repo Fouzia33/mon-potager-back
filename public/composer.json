@@ -29,8 +29,8 @@
     "scripts": {
 
         "reload": [
-            "wp plugin deactivate ocooking",
-            "wp plugin activate ocooking"
+            "wp plugin deactivate monpotager",
+            "wp plugin activate monpotager"
         ],
 
         "activate-theme": "wp theme activate",

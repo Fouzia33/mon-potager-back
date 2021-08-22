@@ -18,10 +18,6 @@ wp-config.php.bak
 wp-content/*
 !wp-content
 
-wp-content/themes/*
-!wp-content/themes
-#!/wp-content/themes/custom_theme
-
 wp-content/plugins/*
 !wp-content/plugins/
-#!/wp-content/plugins/custom_plugin
+!/wp-content/plugins/monpotager

@@ -2,7 +2,7 @@
 
 namespace monPotager;
 
-class Meta_semi
+class MetaPeriode
 {
     const calendrier = [
         'Janvier'   => '2021-01-01',
@@ -20,22 +20,23 @@ class Meta_semi
 
     public function metaboxesloadSemi()
     {
-        add_meta_box('start_semi', 'Periode de culture', [$this, 'loadSemi'], 'plante', 'side');
+        add_meta_box('start_semi', 'Periode de culture', [$this, 'loadSemi'], 'plante', 'default');
     }
     
     public function loadSemi($post)
     {
-        // *********** SEMIS ************ //
+        // *************** START SEMIS ****************** //
         $valueMonthBeginsSemis = get_post_meta($post->ID,'start_semi',true);
 
         echo '<label for="dispo_meta">Indiquez la periode de semis - Début : </label>';
         echo '<select name="start_semi">';
         foreach(self::calendrier as $month => $TabValue){
-            echo '<option ' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="'.$TabValue.'">'.$month.'</option>';
+            echo '<option'.selected($TabValue, $valueMonthBeginsSemis, false) .' value="'.$TabValue.'" >'.$month.'</option>';
         }
         echo '</select>';
 
 
+        // *************** END SEMIS ****************** //
         $valueMonthEndsSemis = get_post_meta($post->ID,'end_semi',true);
 
         echo '<label for="dispo_meta"> Fin : </label>';
@@ -45,9 +46,9 @@ class Meta_semi
         }
         echo '</select><br><br>';
 
-        // *********** PLANTATION ************ //
 
 
+        // *************** START PLANTATION *************** //
         $valueMonthBeginsPlants = get_post_meta($post->ID,'start_plant',true);
 
         echo '<label for="dispo_meta">Indiquez la periode de plantation - Début : </label>';
@@ -58,6 +59,7 @@ class Meta_semi
         echo '</select>';
 
 
+        // *************** END PLANTATION *************** //
         $valueMonthEndsPlants = get_post_meta($post->ID,'end_plant',true);
 
         echo '<label for="dispo_meta"> Fin : </label>';
@@ -67,18 +69,24 @@ class Meta_semi
         }
         echo '</select><br><br>';
 
-        // *********** RECOLTE *************** //
 
-        $valueMonthBeginsHarvest = get_post_meta($post->ID,'start_harvest',true);
+
+        // *********** START HARVEST *************** //
+        $valueMonthBeginsHarvest = get_post_meta($post->ID,'debut_recolte',true);
 
         echo '<label for="dispo_meta">Indiquez la periode de récolte - Début : </label>';
         echo '<select name="start_harvest">';
         foreach(self::calendrier as $month => $TabValue){
-            echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest, false) . ' value="'.$TabValue.'">'.$month.'</option>';
+            if ($TabValue === $valueMonthBeginsHarvest) {
+                echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest, false) . ' value="'.$TabValue.'" selected>'.$month.'</option>';
+            } else {
+                echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest, false) . ' value="'.$TabValue.'">'.$month.'</option>';
+            }
         }
         echo '</select>';
 
 
+        // *********** END HARVEST *************** //
         $valueMonthEndsHarveset = get_post_meta($post->ID,'end_harvest',true);
 
         echo '<label for="dispo_meta"> Fin : </label>';
@@ -87,7 +95,6 @@ class Meta_semi
             echo '<option ' . selected($TabValue, $valueMonthEndsHarveset, false) . ' value="'.$TabValue.'">'.$month.'</option>';
         }
         echo '</select>';
-
     }
 
 
@@ -126,7 +133,7 @@ class Meta_semi
         if (isset($_POST['start_harvest'])&& $_POST['start_harvest'] !=='') {
             update_post_meta($post_ID, 'debut_recolte', esc_html($_POST['start_harvest']));
         } else { 
-            delete_post_meta($post_ID, 'debut_semi');
+            delete_post_meta($post_ID, 'debut_recolte');
         }
 
         if (isset($_POST['end_harvest'])&& $_POST['end_harvest'] !=='') {
