@@ -5,6 +5,7 @@
  */
 
 use monPotager\Plugin;
+use monPotager\Api;
 
 require __DIR__ . '/vendor-monpotager/autoload.php';
 
@@ -20,3 +21,5 @@ register_deactivation_hook(
    __FILE__,
    [$monPotager, 'deactivate']
 );
+
+$api = new Api();

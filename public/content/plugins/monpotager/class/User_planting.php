@@ -57,7 +57,6 @@ class User_planting
             delete_post_meta($post_ID, 'nb_jours_recolte');
             
         }
-
     }
 
 

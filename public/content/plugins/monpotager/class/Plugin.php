@@ -30,6 +30,24 @@ class Plugin
         add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
     }
 
+    public function activate()
+    {
+        $this->registerGardenerRole();
+    }
+
+    public function deactivate()
+    {
+        remove_role('gardener');
+    }
+
+    public function registerGardenerRole()
+    {
+        add_role(
+            'gardener',
+            'Jardinier'
+        );
+    }
+
     /**
      * Rajoute un nouveau post type à wp
      * Cette fonction doit être appelée par un hook, si possible lors de l'action 'init'
@@ -130,21 +148,5 @@ class Plugin
         //var_dump(get_post_meta($post_id));die;
         
         return get_post_meta($post_id);
-    }
-
-
-    
-
-    // public function metaboxes_Plantation()
-    // {
-
-    //     add_meta_box('id_plantation', 'Plantation', [$this, 'start_plantation'], 'plante', 'side');
-    // }
-
-    
-
-
-
-    
-    
+    }   
 }
