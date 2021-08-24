@@ -1,6 +1,7 @@
 <?php
 
 namespace monPotager;
+use monPotager\GardenerPlantationl;
 
 class Plugin
 {
@@ -10,7 +11,7 @@ class Plugin
      */
     public function __construct()
     {
-        $maSemi = new Meta_semi();
+        $maSemi = new MetaPeriode();
         $userPlanting = new User_planting;
 
         add_action('init', [$this, 'createPlanteCPT']);
@@ -23,12 +24,51 @@ class Plugin
 
         add_action('add_meta_boxes', [$maSemi, 'metaboxesloadSemi']);
     
-        add_action('save_post', [$maSemi, 'save_metaboxes']);
         
+
+
+        add_action('save_post', [$maSemi, 'save_metaboxeAuvergne']);
+        add_action('save_post', [$maSemi, 'save_metaboxeBourgogne']);
+        add_action('save_post', [$maSemi, 'save_metaboxeBretagne']);
+        add_action('save_post', [$maSemi, 'save_metaboxeCentre']);
+        add_action('save_post', [$maSemi, 'save_metaboxeCorse']);
+        add_action('save_post', [$maSemi, 'save_metaboxeEst']);
+        add_action('save_post', [$maSemi, 'save_metaboxeHauts']);
+        add_action('save_post', [$maSemi, 'save_metaboxeIle']);
+        add_action('save_post', [$maSemi, 'save_metaboxeNormandie']);
+        add_action('save_post', [$maSemi, 'save_metaboxeAquitaine']);
+        add_action('save_post', [$maSemi, 'save_metaboxeOccitanie']);
+        add_action('save_post', [$maSemi, 'save_metaboxeLoire']);
+        add_action('save_post', [$maSemi, 'save_metaboxeAzur']);
+
         add_action('rest_api_init', [$this, 'api_meta']);
 
         add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
         add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
+    }
+
+    public function activate()
+    {
+        $this->registerGardenerRole();
+
+        $gardenerplant = new GardenerPlantation;
+        $gardenerplant->createTable();
+    }
+
+    public function deactivate()
+    {
+        remove_role('gardener');
+
+        $gardenerplant = new GardenerPlantation;
+        $gardenerplant->dropTable();
+    }
+
+    public function registerGardenerRole()
+    {
+        add_role(
+            'gardener',
+            'Jardinier'
+        );
     }
 
     /**
@@ -109,14 +149,12 @@ class Plugin
     }
 
 
-    
-
     public function api_meta()
     {
 
         register_rest_field(
             'plante',
-            'periode_plante',
+            'periode_regions',
             array(
                 'get_callback' => [$this,'get_post_meta_for_api'],
                 'schema' => null,
@@ -131,21 +169,5 @@ class Plugin
         //var_dump(get_post_meta($post_id));die;
         
         return get_post_meta($post_id);
-    }
-
-
-    
-
-    // public function metaboxes_Plantation()
-    // {
-
-    //     add_meta_box('id_plantation', 'Plantation', [$this, 'start_plantation'], 'plante', 'side');
-    // }
-
-    
-
-
-
-    
-    
+    }   
 }

@@ -1,24 +1,24 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-develop',
-    'version' => 'dev-develop',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => 'cb8f658e1eed31a68559cba10f9fa04912ae44ba',
+    'reference' => '0831bb537bf13bc6dc3d32259274dd4c44054ee0',
     'name' => '__root__',
   ),
   'versions' => 
   array (
     '__root__' => 
     array (
-      'pretty_version' => 'dev-develop',
-      'version' => 'dev-develop',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => 'cb8f658e1eed31a68559cba10f9fa04912ae44ba',
+      'reference' => '0831bb537bf13bc6dc3d32259274dd4c44054ee0',
     ),
   ),
 );
