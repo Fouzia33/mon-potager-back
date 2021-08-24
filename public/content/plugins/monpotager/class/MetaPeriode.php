@@ -20,7 +20,9 @@ class MetaPeriode
 
     public function metaboxesloadSemi()
     {
-        add_meta_box('start_semi', 'Periode de culture', [$this, 'loadSemi'], 'plante', 'default');
+        add_meta_box('start_semi', 'Periode de culture', [$this, 'loadSemi'], 'plante', 'normal');
+        add_meta_box('auvergne', 'Periode de culture Auvergne', [$this, 'loadAuvergne'], 'plante', 'normal');
+        add_meta_box('bourgogne', 'Periode de culture Auvergne', [$this, 'loadBourgogne'], 'plante', 'normal');
     }
     
     public function loadSemi($post)
@@ -143,6 +145,83 @@ class MetaPeriode
         }
     }
 
+        // *********** Auvergne *************** //
+    
+
+    public function loadAuvergne($post)
+    {
+        // *************** START SEMIS ****************** //
+        $valueMonthBeginsSemis = get_post_meta($post->ID,'start_semi',true);
+
+        echo '<label for="dispo_meta">Indiquez la periode de semis - Début : </label>';
+        echo '<select name="start_semi">';
+        foreach(self::calendrier as $month => $TabValue){
+            echo '<option'.selected($TabValue, $valueMonthBeginsSemis, false) .' value="'.$TabValue.'" >'.$month.'</option>';
+        }
+        echo '</select>';
+
+
+        // *************** END SEMIS ****************** //
+        $valueMonthEndsSemis = get_post_meta($post->ID,'end_semi',true);
+
+        echo '<label for="dispo_meta"> Fin : </label>';
+        echo '<select name="end_semi">';
+        foreach(self::calendrier as $month => $TabValue){
+            echo '<option ' . selected($TabValue, $valueMonthEndsSemis, false) . ' value="'.$TabValue.'">'.$month.'</option>';
+        }
+        echo '</select><br><br>';
+
+
+
+        // *************** START PLANTATION *************** //
+        $valueMonthBeginsPlants = get_post_meta($post->ID,'start_plant',true);
+
+        echo '<label for="dispo_meta">Indiquez la periode de plantation - Début : </label>';
+        echo '<select name="start_plant">';
+        foreach(self::calendrier as $month => $TabValue){
+            echo '<option ' . selected($TabValue, $valueMonthBeginsPlants, false) . ' value="'.$TabValue.'">'.$month.'</option>';
+        }
+        echo '</select>';
+
+
+        // *************** END PLANTATION *************** //
+        $valueMonthEndsPlants = get_post_meta($post->ID,'end_plant',true);
+
+        echo '<label for="dispo_meta"> Fin : </label>';
+        echo '<select name="end_plant">';
+        foreach(self::calendrier as $month => $TabValue){
+            echo '<option ' . selected($TabValue, $valueMonthEndsPlants, false) . ' value="'.$TabValue.'">'.$month.'</option>';
+        }
+        echo '</select><br><br>';
+
+
+
+        // *********** START HARVEST *************** //
+        $valueMonthBeginsHarvest = get_post_meta($post->ID,'debut_recolte',true);
+
+        echo '<label for="dispo_meta">Indiquez la periode de récolte - Début : </label>';
+        echo '<select name="start_harvest">';
+        foreach(self::calendrier as $month => $TabValue){
+            if ($TabValue === $valueMonthBeginsHarvest) {
+                echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest, false) . ' value="'.$TabValue.'" selected>'.$month.'</option>';
+            } else {
+                echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest, false) . ' value="'.$TabValue.'">'.$month.'</option>';
+            }
+        }
+        echo '</select>';
+
+
+        // *********** END HARVEST *************** //
+        $valueMonthEndsHarveset = get_post_meta($post->ID,'end_harvest',true);
+
+        echo '<label for="dispo_meta"> Fin : </label>';
+        echo '<select name="end_harvest">';
+        foreach(self::calendrier as $month => $TabValue){
+            echo '<option ' . selected($TabValue, $valueMonthEndsHarveset, false) . ' value="'.$TabValue.'">'.$month.'</option>';
+        }
+        echo '</select>';
+    }
+
     public function api_meta()
     {
         register_rest_field(
@@ -154,6 +233,8 @@ class MetaPeriode
             )
         );
     }
+
+    
 
     public function get_post_meta_for_api($object)
     {

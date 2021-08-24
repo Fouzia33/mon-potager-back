@@ -1,6 +1,7 @@
 <?php
 
 namespace monPotager;
+use monPotager\GardenerPlantationl;
 
 class Plugin
 {
@@ -22,6 +23,7 @@ class Plugin
         add_action('init', [$this, 'season_Taxonomy']);
 
         add_action('add_meta_boxes', [$maSemi, 'metaboxesloadSemi']);
+        //add_action('add_meta_boxes', [$maSemi, 'metaboxesloadAuvergne']);
     
         add_action('save_post', [$maSemi, 'save_metaboxes']);
         add_action('rest_api_init', [$this, 'api_meta']);
@@ -33,11 +35,17 @@ class Plugin
     public function activate()
     {
         $this->registerGardenerRole();
+
+        $gardenerplant = new GardenerPlantation;
+        $gardenerplant->createTable();
     }
 
     public function deactivate()
     {
         remove_role('gardener');
+
+        $gardenerplant = new GardenerPlantation;
+        $gardenerplant->dropTable();
     }
 
     public function registerGardenerRole()

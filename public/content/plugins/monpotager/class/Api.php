@@ -2,6 +2,7 @@
 
 namespace monPotager;
 
+
 use WP_REST_Request;
 use WP_User;
 
@@ -37,6 +38,39 @@ class Api
                 'callback' => [$this, 'inscription']
             ]
         );
+
+        register_rest_route(
+            'monpotager/v1', // le nom de notre API
+            '/plante-save', // la route qui se mettra après le nom de notre api
+            [
+                // WARNING WP route api "methods" avec un S !
+                'methods' => 'post',
+                'callback' => [$this, 'planteSave']
+            ]
+        );
+    }
+
+    public function planteSave(WP_REST_Request $request) {
+        $id_user = $request->get_param('id_user');
+        $id_plante = $request->get_param('id_plante');
+        $status = $request->get_param('status');
+
+        $user = wp_get_current_user();
+
+        //if (in_array('gardener', (array) $user->roles)) {
+            $gardenerPlantation = new GardenerPlantation();
+            $gardenerPlantation->insert($id_user, $id_plante, $status);
+
+            return [
+                'status' => 'sucess',
+            ];
+        //} else  {
+            // return [
+            //     'status' => 'failed',
+            // ];
+        //}
+
+        
     }
 
     public function inscription(WP_REST_Request $request)
