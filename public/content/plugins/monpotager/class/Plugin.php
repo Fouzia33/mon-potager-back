@@ -134,14 +134,12 @@ class Plugin
     }
 
 
-    
-
     public function api_meta()
     {
 
         register_rest_field(
             'plante',
-            'periode_plante',
+            'datas',
             array(
                 'get_callback' => [$this,'get_post_meta_for_api'],
                 'schema' => null,

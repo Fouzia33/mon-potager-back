@@ -18,6 +18,11 @@ class MetaPeriode
         'Novembre'  => '2021-11-01',
         'Décembre'  => '2021-12-01' ];
 
+        const colors = [
+            'Légume'     => '#067106',
+            'Fruit'      => '#0E5671',
+            'Arôme'      => '#719C0F'];
+
     public function metaboxesloadSemi()
     {
         
@@ -34,6 +39,10 @@ class MetaPeriode
         add_meta_box('occitanie', 'Periode de culture Occitanie', [$this, 'loadOccitanie'], 'plante', 'normal');
         add_meta_box('loire', 'Periode de culture Pays de la Loire', [$this, 'loadLoire'], 'plante', 'normal');
         add_meta_box('azur', 'Periode de culture Provence-Alpes-Côte d’Azure', [$this, 'loadAzur'], 'plante', 'normal');
+
+        
+
+        add_meta_box('colors_type', 'Couleurs de type', [$this, 'loadcolor'], 'plante', 'side');
 
     }
     
@@ -746,13 +755,16 @@ class MetaPeriode
             echo '<option ' . selected($TabValue, $valueMonthEndsHarveset, false) . ' value="'.$TabValue.'">'.$month.'</option>';
         }
         echo '</select>';
+        
     }
+
+    
     public function loadAquitaine($post)
     {
         // *************** START SEMIS ****************** //
         $valueMonthBeginsSemis = get_post_meta($post->ID,'start_semi',true);
 
-        echo '<label for="dispo_meta">Indiquez la periode de semis - Début : </label>';
+        echo '<label for="dispo_meta">Indiquez la periode de test - Début : </label>';
         echo '<select name="start_semi">';
         foreach(self::calendrier as $month => $TabValue){
             echo '<option'.selected($TabValue, $valueMonthBeginsSemis, false) .' value="'.$TabValue.'" >'.$month.'</option>';
@@ -1056,9 +1068,23 @@ class MetaPeriode
 
     public function get_post_meta_for_api($object)
     {
-        $post_id = $object['id'];
-        //var_dump(get_post_meta($post_id));die;
-        
+        $post_id = $object['id'];        
         return get_post_meta($post_id);
     }
+
+    public function loadcolor($post)
+    {
+         // *************** START SEMIS ****************** //
+         $valueMonthBeginsSemis = get_post_meta($post->ID,'colorsType',true);
+
+         echo '<label for="dispo_meta">Indiquez le type pour la couleur affiché sur le calendrier </label>';
+         echo '<select name="nameColors">';
+         foreach(self::colors as $month => $TabValue){
+             echo '<option'.selected($TabValue, $valueMonthBeginsSemis, false) .' value="'.$TabValue.'" >'.$month.'</option>';
+         }
+         echo '</select>';
+    }
+
+
+
 }
