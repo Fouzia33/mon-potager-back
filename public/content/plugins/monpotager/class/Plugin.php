@@ -23,6 +23,8 @@ class Plugin
         add_action('init', [$this, 'season_Taxonomy']);
 
         add_action('add_meta_boxes', [$maSemi, 'metaboxesloadSemi']);
+    
+        
 
 
         add_action('save_post', [$maSemi, 'save_metaboxeAuvergne']);
