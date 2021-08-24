@@ -18,9 +18,29 @@ class MetaPeriode
         'Novembre'  => '2021-11-01',
         'Décembre'  => '2021-12-01' ];
 
+        const colors = [
+            'Légume'     => '#067106',
+            'Fruit'      => '#0E5671',
+            'Arôme'      => '#719C0F'];
+
     public function metaboxesloadSemi()
     {
         add_meta_box('start_semi', 'Periode de culture', [$this, 'loadSemi'], 'plante', 'default');
+
+        //add_meta_box('colors_type', 'Couleurs de type', [$this, 'loadcolor'], 'plante', 'default');
+    }
+
+    public function loadcolor($post)
+    {
+         // *************** START SEMIS ****************** //
+         $valueMonthBeginsSemis = get_post_meta($post->ID,'colorsType',true);
+
+         echo '<label for="dispo_meta">Indiquez le typ pour la couleur affiché sur le calendrier </label>';
+         echo '<select name="nameColors">';
+         foreach(self::colors as $month => $TabValue){
+             echo '<option'.selected($TabValue, $valueMonthBeginsSemis, false) .' value="'.$TabValue.'" >'.$month.'</option>';
+         }
+         echo '</select>';
     }
     
     public function loadSemi($post)
@@ -28,7 +48,7 @@ class MetaPeriode
         // *************** START SEMIS ****************** //
         $valueMonthBeginsSemis = get_post_meta($post->ID,'start_semi',true);
 
-        echo '<label for="dispo_meta">Indiquez la periode de semis - Début : </label>';
+        echo '<label for="dispo_meta">Indiquez la periode de test - Début : </label>';
         echo '<select name="start_semi">';
         foreach(self::calendrier as $month => $TabValue){
             echo '<option'.selected($TabValue, $valueMonthBeginsSemis, false) .' value="'.$TabValue.'" >'.$month.'</option>';
@@ -100,6 +120,11 @@ class MetaPeriode
 
     public function save_metaboxes($post_ID)
     {
+        if (isset($_POST['nameColors'])&& $_POST['nameColors'] !=='') {
+            update_post_meta($post_ID, 'colorsType', esc_html($_POST['nameColors']));
+        } else { 
+            delete_post_meta($post_ID, 'colorsType');
+        }
 
         // *********** SEMIS ************ //
         if (isset($_POST['start_semi'])&& $_POST['start_semi'] !=='') {
@@ -157,9 +182,7 @@ class MetaPeriode
 
     public function get_post_meta_for_api($object)
     {
-        $post_id = $object['id'];
-        //var_dump(get_post_meta($post_id));die;
-        
+        $post_id = $object['id'];        
         return get_post_meta($post_id);
     }
 }
