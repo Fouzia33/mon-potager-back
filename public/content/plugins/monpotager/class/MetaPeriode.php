@@ -1387,7 +1387,7 @@ class MetaPeriode
         $valueMonthBeginsSemis = get_post_meta($post->ID,'start_semi_loire',true);
 
         echo '<label for="dispo_meta">Indiquez la periode de semis - Début : </label>';
-        echo '<select name="start_semi_ loire">';
+        echo '<select name="start_semi_loire">';
         foreach(self::calendrier as $month => $TabValue){
             echo '<option'.selected($TabValue, $valueMonthBeginsSemis, false) .' value="'.$TabValue.'" >'.$month.'</option>';
         }
@@ -1455,7 +1455,6 @@ class MetaPeriode
         echo '</select>';
     }
 
-    
 
     public function save_metaboxeLoire($post_ID)
     {
