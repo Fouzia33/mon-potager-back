@@ -133,7 +133,7 @@ class MetaPeriode
             delete_post_meta($post_ID, 'debut_semi_auvergne');
         }
 
-        if (isset($_POST['end_semi'])&& $_POST['end_semi_auvergne'] !=='') {
+        if (isset($_POST['end_semi_auvergne'])&& $_POST['end_semi_auvergne'] !=='') {
             update_post_meta($post_ID, 'fin_semi_auvergne', esc_html($_POST['end_semi_auvergne']));
         } else {
             delete_post_meta($post_ID, 'fin_semi_auvergne'); 
@@ -173,7 +173,7 @@ class MetaPeriode
     public function loadBourgogne($post)
     {
         // *************** START SEMIS ****************** //
-        $valueMonthBeginsSemis = get_post_meta($post->ID,'start_semi_bretagne',true);
+        $valueMonthBeginsSemis = get_post_meta($post->ID,'start_semi_bourgogne',true);
 
         echo '<label for="dispo_meta">Indiquez la periode de semis - Début : </label>';
         echo '<select name="start_semi_bourgogne">';
@@ -254,7 +254,7 @@ class MetaPeriode
             delete_post_meta($post_ID, 'debut_semi_bourgogne');
         }
 
-        if (isset($_POST['end_semi'])&& $_POST['end_semi_bourgogne'] !=='') {
+        if (isset($_POST['end_semi_bourgogne'])&& $_POST['end_semi_bourgogne'] !=='') {
             update_post_meta($post_ID, 'fin_semi_bourgogne', esc_html($_POST['end_semi_bourgogne']));
         } else {
             delete_post_meta($post_ID, 'fin_semi_bourgogne'); 
