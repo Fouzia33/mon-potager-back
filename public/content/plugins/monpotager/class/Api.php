@@ -18,7 +18,31 @@ class Api
     {
         // STEP API enregistrement de notre api custom
         add_action('rest_api_init', [$this, 'initialize']);
+
+        add_action('rest_api_init', [$this, 'api_meta']);
+
     }
+
+    public function api_meta()
+    {
+
+        register_rest_field(
+            'user',
+            'region',
+            array(
+                'get_callback' => [$this,'get_user_meta_for_api'],
+                'schema' => null,
+            )
+        );
+    }
+
+    public function get_user_meta_for_api($object)
+    {
+        $user_id = $object['id'];
+        //var_dump(get_post_meta($post_id));die;
+        
+        return get_user_meta( $user_id, 'region', true);
+    }   
 
     public function initialize()
     {
@@ -81,18 +105,27 @@ class Api
 
         $userName = $request->get_param('username');
 
+        $region = $request->get_param('region');
+
         // Création d'un nouvel utilisateur
         // DOC WP creation d'un utilisateur : https://developer.wordpress.org/reference/functions/wp_create_user/
         $userCreateResult = wp_create_user(
             $userName,
             $password,
-            $email
+            $email,
         );
+
 
         // Vérification est ce que l'utilisateur a bien été créé
         if (is_int($userCreateResult)) {
             // STEP WP modification des rôles d'un utilisateur
             $user = new WP_User($userCreateResult);
+
+            add_user_meta($user->id, 'region', $region, true);
+            // register_meta($user->id,'region',array(
+            //     "type"=> "string",
+            //     "show_in_rest"=> true
+            // ));
 
             // Remove role
             $user->remove_role('subscriber');
@@ -105,6 +138,7 @@ class Api
                 'userId' => $userCreateResult,
                 'username' => $userName,
                 'email' => $email,
+                'region' => $region,
                 'role' => 'gardener'
             ];
         } else {
