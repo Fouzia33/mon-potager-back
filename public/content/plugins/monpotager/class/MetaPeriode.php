@@ -100,7 +100,7 @@ class MetaPeriode
     public function loadAuvergne($post)
     {
         // *************** START SEMIS ****************** //
-        $valueMonthBeginsSemis = get_post_meta($post->ID,'start_semi',true);
+        $valueMonthBeginsSemis = get_post_meta($post->ID,'start_semi_auvergne',true);
 
         echo '<label for="dispo_meta">Indiquez la periode de semis - Début : </label>';
         echo '<select name="start_semi">';
