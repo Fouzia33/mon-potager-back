@@ -15,7 +15,7 @@ class User_planting
     {
         $valueSemi = get_post_meta($post->ID, 'nb_jours_semi_plantation', true);
         $valuePlanting = get_post_meta($post->ID, 'nb_jours_plantation', true);
-        $valueHarvest = get_post_meta($post->ID, 'days_harvest', true);
+        $valueHarvest = get_post_meta($post->ID, 'nb_jours_recolte', true);
 
 
         echo '<label for="days_planting_semi">Nombres de jours semi plantation : </label>';
