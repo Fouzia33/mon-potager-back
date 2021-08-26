@@ -22,26 +22,6 @@ class Api
 
     }
 
-    public function api_meta()
-    {
-
-        register_rest_field(
-            'user',
-            'region',
-            array(
-                'get_callback' => [$this,'get_user_meta_for_api'],
-                'schema' => null,
-            )
-        );
-    }
-
-    public function get_user_meta_for_api($object)
-    {
-        $user_id = $object['id'];
-        //var_dump(get_post_meta($post_id));die;
-        
-        return get_user_meta( $user_id, 'region', true);
-    }   
 
     public function initialize()
     {
@@ -60,35 +40,90 @@ class Api
 
         register_rest_route(
             'monpotager/v1',
-            '/plante-save', 
+            '/plantation-save', 
             [
                 'methods' => 'post',
-                'callback' => [$this, 'planteSave']
+                'callback' => [$this, 'plantationSave']
+            ]
+        );
+
+        register_rest_route(
+            'monpotager/v1',
+            '/plantation-delete', 
+            [
+                'methods' => 'post',
+                'callback' => [$this, 'plantationDelete']
+            ]
+        );
+
+        register_rest_route(
+            'monpotager/v1',
+            '/plantation-update', 
+            [
+                'methods' => 'post',
+                'callback' => [$this, 'plantationUpdate']
             ]
         );
     }
 
-    public function planteSave(WP_REST_Request $request) {
+    public function plantationUpdate(WP_REST_Request $request)
+    {
+        $id_plantation = $request->get_param('id_plantation');
         $id_user = $request->get_param('id_user');
-        $id_plante = $request->get_param('id_plante');
         $status = $request->get_param('status');
+        $id_plante = $request->get_param('id_plante');
 
-        $user = wp_get_current_user();
+        // $user = wp_get_current_user();
+        // $id_user = $user->id;
 
-        if (in_array('gardener', (array) $user->roles)) {
+        //if (in_array('gardener', (array) $user->roles)) {
+        
+        $gardenerPlantation = new GardenerPlantation();
+        $gardenerPlantation->update($id_user, $id_plantation, $id_plante, $status);
+
+        return [
+            'status' => 'sucess',
+        ];
+    }
+
+    public function plantationDelete(WP_REST_Request $request)
+    {
+        $id_plantation = $request->get_param('id_plantation');
+        $id_user = $request->get_param('id_user');
+
+        // $user = wp_get_current_user();
+        // $id_user = $user->id;
+
+        //if (in_array('gardener', (array) $user->roles)) {
+        
+        $gardenerPlantation = new GardenerPlantation();
+        $gardenerPlantation->delete($id_user, $id_plantation);
+
+        return [
+            'status' => 'sucess',
+        ];
+    }
+
+    public function plantationSave(WP_REST_Request $request) {
+        $id_plante = $request->get_param('id_plante');
+        //$status = $request->get_param('status');
+        $id_user = $request->get_param('id_user');
+
+        // $user = wp_get_current_user();
+        // $id_user = $user->id;
+
+        //if (in_array('gardener', (array) $user->roles)) {
             $gardenerPlantation = new GardenerPlantation();
-            $gardenerPlantation->insert($id_user, $id_plante, $status);
+            $gardenerPlantation->insert($id_user, $id_plante);
 
             return [
                 'status' => 'sucess',
             ];
-        } else  {
-             return [
-                 'status' => 'failed',
-            ];
-        }
-
-        
+        //} else  {
+            //  return [
+            //      'status' => 'failed',
+            // ];
+        //}
     }
 
     public function inscription(WP_REST_Request $request)
@@ -137,4 +172,25 @@ class Api
             ];
         }
     }
+
+    public function api_meta()
+    {
+
+        register_rest_field(
+            'user',
+            'region',
+            array(
+                'get_callback' => [$this,'get_user_meta_for_api'],
+                'schema' => null,
+            )
+        );
+    }
+
+    public function get_user_meta_for_api($object)
+    {
+        $user_id = $object['id'];
+        //var_dump(get_post_meta($post_id));die;
+        
+        return get_user_meta( $user_id, 'region', true);
+    }   
 }
