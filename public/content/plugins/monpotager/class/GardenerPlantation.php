@@ -63,7 +63,7 @@ class GardenerPlantation
         $this->database->query($sql);
     }
 
-    public function insert($id_user, $id_plante, $status = 0)
+    public function insert($id_user, $id_plante, $status = 1)
     {
         // le tableau data stocke les données à insérer dans la table
         $data = [
