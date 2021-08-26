@@ -83,12 +83,10 @@ class Api
                 'status' => 'sucess',
             ];
         } else  {
-             return [
+            return [
                  'status' => 'failed',
             ];
         }
-
-        
     }
 
     public function inscription(WP_REST_Request $request)
@@ -111,10 +109,6 @@ class Api
             $user = new WP_User($userCreateResult);
 
             add_user_meta($user->id, 'region', $region, true);
-            // register_meta($user->id,'region',array(
-            //     "type"=> "string",
-            //     "show_in_rest"=> true
-            // ));
 
             // Remove role
             $user->remove_role('subscriber');
