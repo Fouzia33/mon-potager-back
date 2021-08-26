@@ -86,8 +86,7 @@ class Api
             return [
                  'status' => 'failed',
             ];
-        }
-    }
+        }    }
 
     public function inscription(WP_REST_Request $request)
     {
