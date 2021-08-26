@@ -11,7 +11,7 @@ class Plugin
      */
     public function __construct()
     {
-        $maSemi = new MetaPeriode();
+        $metaPeriod = new MetaPeriod();
         $userPlanting = new User_planting;
 
         add_action('init', [$this, 'createPlanteCPT']);

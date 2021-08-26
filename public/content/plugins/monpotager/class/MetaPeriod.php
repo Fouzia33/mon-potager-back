@@ -2,7 +2,7 @@
 
 namespace monPotager;
 
-class MetaPeriode
+class MetaPeriod
 {
     const calendrier = [
         'Janvier'   => '2021-01-01',
