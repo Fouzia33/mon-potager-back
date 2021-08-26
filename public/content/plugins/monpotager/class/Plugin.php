@@ -18,6 +18,8 @@ class Plugin
 
         add_action('init', [$this, 'createPlanteTypeTaxonomy']);
 
+        add_action('init', [$this, 'createPlanteRegionsTaxonomy']);
+
         add_action('init', [$this, 'season_Taxonomy']);
 
         add_action('add_meta_boxes', [$maSemi, 'metaboxesloadSemi']);
@@ -40,8 +42,6 @@ class Plugin
 
         add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
         add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
-
-
     }
 
     public function activate()
@@ -103,6 +103,20 @@ class Plugin
     /**
      * Crée la taxonomie 'Ingrédient', liée au cpt Recipe
      */
+    public function createPlanteRegionsTaxonomy()
+    {
+        register_taxonomy(
+            'regions',
+            ['plante'],
+            [
+                'label' => 'Régions',
+                'show_in_rest'  => true,
+                'hierarchical'  => false,
+                'public'        => true,
+            ],
+        );
+    }
+
     public function createPlanteTypeTaxonomy()
     {
         register_taxonomy(
