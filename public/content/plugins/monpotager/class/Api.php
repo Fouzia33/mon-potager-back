@@ -17,7 +17,31 @@ class Api
     {
         // registration of our custom api
         add_action('rest_api_init', [$this, 'initialize']);
+
+        add_action('rest_api_init', [$this, 'api_meta']);
+
     }
+
+    public function api_meta()
+    {
+
+        register_rest_field(
+            'user',
+            'region',
+            array(
+                'get_callback' => [$this,'get_user_meta_for_api'],
+                'schema' => null,
+            )
+        );
+    }
+
+    public function get_user_meta_for_api($object)
+    {
+        $user_id = $object['id'];
+        //var_dump(get_post_meta($post_id));die;
+        
+        return get_user_meta( $user_id, 'region', true);
+    }   
 
     public function initialize()
     {
@@ -51,18 +75,18 @@ class Api
 
         $user = wp_get_current_user();
 
-        //if (in_array('gardener', (array) $user->roles)) {
+        if (in_array('gardener', (array) $user->roles)) {
             $gardenerPlantation = new GardenerPlantation();
             $gardenerPlantation->insert($id_user, $id_plante, $status);
 
             return [
                 'status' => 'sucess',
             ];
-        //} else  {
-            // return [
-            //     'status' => 'failed',
-            // ];
-        //}
+        } else  {
+             return [
+                 'status' => 'failed',
+            ];
+        }
 
         
     }
@@ -72,18 +96,25 @@ class Api
         $email = $request->get_param('email');
         $password = $request->get_param('password');
         $userName = $request->get_param('username');
+        $region = $request->get_param('region');
 
         // Create new user
         $userCreateResult = wp_create_user(
             $userName,
             $password,
-            $email
+            $email,
         );
 
         // Verification that the user has been created
         if (is_int($userCreateResult)) {
 
             $user = new WP_User($userCreateResult);
+
+            add_user_meta($user->id, 'region', $region, true);
+            // register_meta($user->id,'region',array(
+            //     "type"=> "string",
+            //     "show_in_rest"=> true
+            // ));
 
             // Remove role
             $user->remove_role('subscriber');
@@ -96,6 +127,7 @@ class Api
                 'userId' => $userCreateResult,
                 'username' => $userName,
                 'email' => $email,
+                'region' => $region,
                 'role' => 'gardener'
             ];
         } else {  // if the user was not created, the error occurred

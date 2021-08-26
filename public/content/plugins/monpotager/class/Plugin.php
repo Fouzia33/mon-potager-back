@@ -18,14 +18,9 @@ class Plugin
 
         add_action('init', [$this, 'createPlanteTypeTaxonomy']);
 
-        add_action('init', [$this, 'regions_Taxonomy']);
-
         add_action('init', [$this, 'season_Taxonomy']);
 
         add_action('add_meta_boxes', [$maSemi, 'metaboxesloadSemi']);
-    
-        
-
 
         add_action('save_post', [$maSemi, 'save_metaboxeAuvergne']);
         add_action('save_post', [$maSemi, 'save_metaboxeBourgogne']);
@@ -45,6 +40,8 @@ class Plugin
 
         add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
         add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
+
+
     }
 
     public function activate()
@@ -113,20 +110,6 @@ class Plugin
             ['plante'],
             [
                 'label' => 'Type de plante',
-                'show_in_rest'  => true,
-                'hierarchical'  => false,
-                'public'        => true,
-            ],
-        );
-    }
-
-    public function regions_Taxonomy()
-    {
-        register_taxonomy(
-            'regions',
-            ['plante'],
-            [
-                'label' => 'Régions',
                 'show_in_rest'  => true,
                 'hierarchical'  => false,
                 'public'        => true,
