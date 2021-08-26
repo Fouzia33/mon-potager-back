@@ -23,20 +23,7 @@ class Plugin
         add_action('init', [$this, 'season_Taxonomy']);
 
         add_action('add_meta_boxes', [$maSemi, 'metaboxesloadSemi']);
-
-        add_action('save_post', [$maSemi, 'save_metaboxeAuvergne']);
-        add_action('save_post', [$maSemi, 'save_metaboxeBourgogne']);
-        add_action('save_post', [$maSemi, 'save_metaboxeBretagne']);
-        add_action('save_post', [$maSemi, 'save_metaboxeCentre']);
-        add_action('save_post', [$maSemi, 'save_metaboxeCorse']);
-        add_action('save_post', [$maSemi, 'save_metaboxeEst']);
-        add_action('save_post', [$maSemi, 'save_metaboxeHauts']);
-        add_action('save_post', [$maSemi, 'save_metaboxeIle']);
-        add_action('save_post', [$maSemi, 'save_metaboxeNormandie']);
-        add_action('save_post', [$maSemi, 'save_metaboxeAquitaine']);
-        add_action('save_post', [$maSemi, 'save_metaboxeOccitanie']);
-        add_action('save_post', [$maSemi, 'save_metaboxeLoire']);
-        add_action('save_post', [$maSemi, 'save_metaboxeAzur']);
+        add_action('save_post', [$maSemi, 'save_metaboxe']);
 
         add_action('rest_api_init', [$this, 'api_meta']);
 
