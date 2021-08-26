@@ -2,7 +2,6 @@
 
 namespace monPotager;
 
-
 use WP_REST_Request;
 use WP_User;
 
@@ -16,34 +15,53 @@ class Api
 
     public function __construct()
     {
-        // STEP API enregistrement de notre api custom
+        // registration of our custom api
         add_action('rest_api_init', [$this, 'initialize']);
+
+        add_action('rest_api_init', [$this, 'api_meta']);
+
     }
+
+    public function api_meta()
+    {
+
+        register_rest_field(
+            'user',
+            'region',
+            array(
+                'get_callback' => [$this,'get_user_meta_for_api'],
+                'schema' => null,
+            )
+        );
+    }
+
+    public function get_user_meta_for_api($object)
+    {
+        $user_id = $object['id'];
+        //var_dump(get_post_meta($post_id));die;
+        
+        return get_user_meta( $user_id, 'region', true);
+    }   
 
     public function initialize()
     {
-        // DOC PHP récupération du nom d'un dossier depuis un chemain de fichier https://www.php.net/dirname
+        // retrieve a folder name from a file path 
         $this->baseURI = dirname($_SERVER['SCRIPT_NAME']);
 
-
-        // STEP WP création d'une route d'API
-        // DOC WP création d'une route d'API https://developer.wordpress.org/reference/functions/register_rest_route/
-
+        // Create new API route
         register_rest_route(
-            'monpotager/v1', // le nom de notre API
-            '/inscription', // la route qui se mettra après le nom de notre api
+            'monpotager/v1', // name of an API
+            '/inscription', // the endpoint that will be put after the name of the api
             [
-                // WARNING WP route api "methods" avec un S !
-                'methods' => 'post',
+                'methods' => 'post', // the method used
                 'callback' => [$this, 'inscription']
             ]
         );
 
         register_rest_route(
-            'monpotager/v1', // le nom de notre API
-            '/plante-save', // la route qui se mettra après le nom de notre api
+            'monpotager/v1',
+            '/plante-save', 
             [
-                // WARNING WP route api "methods" avec un S !
                 'methods' => 'post',
                 'callback' => [$this, 'planteSave']
             ]
@@ -57,59 +75,55 @@ class Api
 
         $user = wp_get_current_user();
 
-        //if (in_array('gardener', (array) $user->roles)) {
+        if (in_array('gardener', (array) $user->roles)) {
             $gardenerPlantation = new GardenerPlantation();
             $gardenerPlantation->insert($id_user, $id_plante, $status);
 
             return [
                 'status' => 'sucess',
             ];
-        //} else  {
-            // return [
-            //     'status' => 'failed',
-            // ];
-        //}
-
-        
-    }
+        } else  {
+            return [
+                 'status' => 'failed',
+            ];
+        }    }
 
     public function inscription(WP_REST_Request $request)
     {
         $email = $request->get_param('email');
-        // équivalent à filter_input(INPUT_POST, 'password')
         $password = $request->get_param('password');
-
         $userName = $request->get_param('username');
+        $region = $request->get_param('region');
 
-        // Création d'un nouvel utilisateur
-        // DOC WP creation d'un utilisateur : https://developer.wordpress.org/reference/functions/wp_create_user/
+        // Create new user
         $userCreateResult = wp_create_user(
             $userName,
             $password,
-            $email
+            $email,
         );
 
-        // Vérification est ce que l'utilisateur a bien été créé
+        // Verification that the user has been created
         if (is_int($userCreateResult)) {
-            // STEP WP modification des rôles d'un utilisateur
+
             $user = new WP_User($userCreateResult);
+
+            add_user_meta($user->id, 'region', $region, true);
 
             // Remove role
             $user->remove_role('subscriber');
             // Add role
             $user->add_role('gardener');
 
-            // STEP WP API valeurs qui seront retournées par l'api (données utilisable par le front)
+            // values that will be returned by the api 
             return [
                 'success' => true,
                 'userId' => $userCreateResult,
                 'username' => $userName,
                 'email' => $email,
+                'region' => $region,
                 'role' => 'gardener'
             ];
-        } else {
-            // l'utilisateur n'a pas été créé, il y a eu une erreur
-            // Lorsque
+        } else {  // if the user was not created, the error occurred
             return [
                 'success'=> false,
                 'error' => $userCreateResult

@@ -18,28 +18,12 @@ class Plugin
 
         add_action('init', [$this, 'createPlanteTypeTaxonomy']);
 
-        add_action('init', [$this, 'regions_Taxonomy']);
+        add_action('init', [$this, 'createPlanteRegionsTaxonomy']);
 
         add_action('init', [$this, 'season_Taxonomy']);
 
         add_action('add_meta_boxes', [$maSemi, 'metaboxesloadSemi']);
-    
-        
-
-
-        add_action('save_post', [$maSemi, 'save_metaboxeAuvergne']);
-        add_action('save_post', [$maSemi, 'save_metaboxeBourgogne']);
-        add_action('save_post', [$maSemi, 'save_metaboxeBretagne']);
-        add_action('save_post', [$maSemi, 'save_metaboxeCentre']);
-        add_action('save_post', [$maSemi, 'save_metaboxeCorse']);
-        add_action('save_post', [$maSemi, 'save_metaboxeEst']);
-        add_action('save_post', [$maSemi, 'save_metaboxeHauts']);
-        add_action('save_post', [$maSemi, 'save_metaboxeIle']);
-        add_action('save_post', [$maSemi, 'save_metaboxeNormandie']);
-        add_action('save_post', [$maSemi, 'save_metaboxeAquitaine']);
-        add_action('save_post', [$maSemi, 'save_metaboxeOccitanie']);
-        add_action('save_post', [$maSemi, 'save_metaboxeLoire']);
-        add_action('save_post', [$maSemi, 'save_metaboxeAzur']);
+        add_action('save_post', [$maSemi, 'save_metaboxe']);
 
         add_action('rest_api_init', [$this, 'api_meta']);
 
@@ -106,13 +90,13 @@ class Plugin
     /**
      * Crée la taxonomie 'Ingrédient', liée au cpt Recipe
      */
-    public function createPlanteTypeTaxonomy()
+    public function createPlanteRegionsTaxonomy()
     {
         register_taxonomy(
-            'plante_type',
+            'regions',
             ['plante'],
             [
-                'label' => 'Type de plante',
+                'label' => 'Régions',
                 'show_in_rest'  => true,
                 'hierarchical'  => false,
                 'public'        => true,
@@ -120,13 +104,13 @@ class Plugin
         );
     }
 
-    public function regions_Taxonomy()
+    public function createPlanteTypeTaxonomy()
     {
         register_taxonomy(
-            'regions',
+            'plante_type',
             ['plante'],
             [
-                'label' => 'Régions',
+                'label' => 'Type de plante',
                 'show_in_rest'  => true,
                 'hierarchical'  => false,
                 'public'        => true,
