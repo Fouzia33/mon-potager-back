@@ -84,7 +84,7 @@ class Api
         //if (in_array('gardener', (array) $user->roles)) {
 
         $gardenerPlantation = new GardenerPlantation();
-        $result = $gardenerPlantation->getPlantationByUserId($id_user);
+        $result = $gardenerPlantation->getPlantationsByUserId($id_user);
     
         return [
             'status'     => 'sucess',
@@ -109,10 +109,10 @@ class Api
         $gardenerPlantation->update($id_user, $id_plantation, $id_plante, $status);
 
         return [
-            'status'        => 'sucess',
+            'status requête'=> 'sucess',
             'id_user'       => $id_user,
             'id_plantation' => $id_plantation, 
-            'id_plante'     =>  $id_plante,
+            'id_plante'     => $id_plante,
             'status'        => $status
         ];
     }
