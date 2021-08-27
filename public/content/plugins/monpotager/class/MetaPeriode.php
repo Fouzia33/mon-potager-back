@@ -16,7 +16,8 @@ class MetaPeriode
         'Septembre' => '2021-09-01',
         'Octobre'   => '2021-10-01',
         'Novembre'  => '2021-11-01',
-        'Décembre'  => '2021-12-01'
+        'Décembre'  => '2021-12-01',
+        'none'      => 'empty',
     ];
 
     const colors = [
@@ -52,14 +53,21 @@ class MetaPeriode
     public function loadRegions($post)
     {
         foreach (self::regions as $region => $value) {
+
             // *************** START SEMIS ****************** //
             $valueMonthBeginsSemis = get_post_meta($post->ID, 'start_semi' . $value, true);
-            echo "<div style='border:solid 2px #c3c4c7; margin-bottom: 1rem;padding:0.5rem'>";
-            echo "<h1>$region :</h1>";
+            echo "<div style='border:solid 2px #c3c4c7; margin-bottom: 1rem;padding:0.5rem;'>";
+            echo "<h2>$region :</h2>";
             echo '<label for="dispo_meta">Indiquez la periode de semis - Début : </label>';
             echo '<select name="start_semi' . $value . '">';
             foreach (self::calendrier as $month => $TabValue) {
-                echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '" >' . $month . '</option>';
+                if($valueMonthBeginsSemis === $TabValue) {
+                    //var_dump('vrai,', $valueMonthBeginsSemis, $TabValue);exit;
+                    echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
+                } else {
+                    //var_dump('faux,', $valueMonthBeginsSemis, $TabValue);exit;
+                    echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '">' . $month . '</option>';
+                }
             }
             echo '</select>';
 
@@ -124,27 +132,27 @@ class MetaPeriode
     {
         foreach (self::regions as $region => $value) {
             // *********** SEMIS ************ //
-            if (isset($_POST['start_semi' . $value]) && $_POST['start_semi' . $value] !== '') {
+            if (isset($_POST['start_semi' . $value]) && $_POST['start_semi' . $value] !== '' && $_POST['start_semi' . $value] != 'empty') {
                 update_post_meta($post_ID, 'debut_semi' . $value, esc_html($_POST['start_semi' . $value]));
             } else {
                 delete_post_meta($post_ID, 'debut_semi' . $value);
             }
 
             // *************** END SEMIS ****************** //
-            if (isset($_POST['end_semi' . $value]) && $_POST['end_semi' . $value] !== '') {
+            if (isset($_POST['end_semi' . $value]) && $_POST['end_semi' . $value] !== '' && $_POST['end_semi' . $value] !== 'empty') {
                 update_post_meta($post_ID, 'fin_semi' . $value, esc_html($_POST['end_semi' . $value]));
             } else {
                 delete_post_meta($post_ID, 'fin_semi' . $value);
             }
 
             // *********** PLANTATION ************ //
-            if (isset($_POST['start_plant' . $value]) && $_POST['start_plant' . $value] !== '') {
+            if (isset($_POST['start_plant' . $value]) && $_POST['start_plant' . $value] !== '' && $_POST['start_plant' . $value] !== 'empty')  {
                 update_post_meta($post_ID, 'debut_plant' . $value, esc_html($_POST['start_plant' . $value]));
             } else {
                 delete_post_meta($post_ID, 'debut_plant' . $value);
             }
 
-            if (isset($_POST['end_plant' . $value]) && $_POST['end_plant' . $value] !== '') {
+            if (isset($_POST['end_plant' . $value]) && $_POST['end_plant' . $value] !== '' && $_POST['end_plant' . $value] !== 'empty') {
                 update_post_meta($post_ID, 'fin_plant' . $value, esc_html($_POST['end_plant' . $value]));
             } else {
                 delete_post_meta($post_ID, 'fin_plant' . $value);
@@ -152,13 +160,13 @@ class MetaPeriode
 
             // *********** RECOLTE *************** //
 
-            if (isset($_POST['start_harvest' .$value]) && $_POST['start_harvest' .$value] !== '') {
-                update_post_meta($post_ID, 'debut_recolte'.$value, esc_html($_POST['start_harvest'.$value]));
+            if (isset($_POST['start_harvest' .$value]) && $_POST['start_harvest' .$value] !== '' && $_POST['start_harvest' . $value] !== 'empty') {
+                update_post_meta($post_ID, 'debut_recolte'.$value, esc_html($_POST['start_harvest' .$value]));
             } else {
                 delete_post_meta($post_ID, 'debut_recolte'.$value);
             }
 
-            if (isset($_POST['end_harvest'.$value]) && $_POST['end_harvest' .$value] !== '') {
+            if (isset($_POST['end_harvest'.$value]) && $_POST['end_harvest' .$value] !== '' && $_POST['end_harvest' . $value] !== 'empty') {
                 update_post_meta($post_ID, 'fin_recolte'.$value, esc_html($_POST['end_harvest' .$value]));
             } else {
                 delete_post_meta($post_ID, 'fin_recolte' .$value);

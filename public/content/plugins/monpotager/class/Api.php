@@ -7,7 +7,6 @@ use WP_User;
 
 class Api
 {
-
     /**
      * @var string
      */
