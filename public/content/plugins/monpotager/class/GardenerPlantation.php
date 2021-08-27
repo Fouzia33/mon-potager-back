@@ -93,7 +93,8 @@ class GardenerPlantation
     {
         $data = [
             "id_plante" => $id_plante,
-            "status" => $status
+            "status" => $status,
+            "updated_at" => date('Y-m-d H-i-s')
         ];
 
         $where = [
@@ -108,7 +109,35 @@ class GardenerPlantation
         );
     }
 
-    public function getPlantationByUserId($id_user)
+    public function getPlantationsByUserId($id_user)
+    {
+        $sql = "
+            SELECT 
+                *
+            FROM `gardener_plantation`
+            WHERE
+                `id_user` = %d
+        ";
+
+        $rows = $this->executePreparedStatement(
+            $sql,
+            [
+                $id_user
+            ]
+            );
+
+
+        $results = [];
+
+        foreach($rows as $values){
+            $results[] =  $values;
+        }
+
+        return $results;
+
+    }
+
+    public function getAllPlantations($id_user)
     {
         $sql = "
             SELECT 
