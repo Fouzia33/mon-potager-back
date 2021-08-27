@@ -64,6 +64,34 @@ class Api
                 'callback' => [$this, 'plantationUpdate']
             ]
         );
+
+        register_rest_route(
+            'monpotager/v1',
+            '/plantation-select', 
+            [
+                'methods' => 'post',
+                'callback' => [$this, 'plantationSelect']
+            ]
+        );
+    }
+
+    public function plantationSelect(WP_REST_Request $request)
+    {
+        $id_user = $request->get_param('id_user');
+
+        // $user = wp_get_current_user();
+        // $id_user = $user->id;
+
+        //if (in_array('gardener', (array) $user->roles)) {
+
+        $gardenerPlantation = new GardenerPlantation();
+        $result = $gardenerPlantation->getPlantationByUserId($id_user);
+    
+        return [
+            'status'     => 'sucess',
+            'id_user'    => $id_user,
+            'plantations' => $result
+        ];
     }
 
     public function plantationUpdate(WP_REST_Request $request)
@@ -82,7 +110,11 @@ class Api
         $gardenerPlantation->update($id_user, $id_plantation, $id_plante, $status);
 
         return [
-            'status' => 'sucess',
+            'status'        => 'sucess',
+            'id_user'       => $id_user,
+            'id_plantation' => $id_plantation, 
+            'id_plante'     =>  $id_plante,
+            'status'        => $status
         ];
     }
 
@@ -100,7 +132,9 @@ class Api
         $gardenerPlantation->delete($id_user, $id_plantation);
 
         return [
-            'status' => 'sucess',
+            'status'        => 'sucess',
+            'id_user'       => $id_user,
+            'id_plantation' => $id_plantation
         ];
     }
 
@@ -117,7 +151,9 @@ class Api
             $gardenerPlantation->insert($id_user, $id_plante);
 
             return [
-                'status' => 'sucess',
+                'status'    => 'sucess',
+                'id_user'   => $id_user,
+                'id_plante' => $id_plante, 
             ];
         //} else  {
             //  return [
@@ -158,12 +194,12 @@ class Api
 
             // values that will be returned by the api 
             return [
-                'success' => true,
-                'userId' => $userCreateResult,
-                'username' => $userName,
-                'email' => $email,
-                'region' => $region,
-                'role' => 'gardener'
+                'success'   => true,
+                'userId'    => $userCreateResult,
+                'username'  => $userName,
+                'email'     => $email,
+                'region'    => $region,
+                'role'      => 'gardener'
             ];
         } else {  // if the user was not created, the error occurred
             return [
