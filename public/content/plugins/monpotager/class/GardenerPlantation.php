@@ -28,16 +28,14 @@ class GardenerPlantation
 
     public function createTable()
     {
-        // onva devoir fabriquer une table
-        // 'developer_technology'
-        // Colonnes : 
-        // id bigint(24) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY
-        // level tinyint(4) unsigned NOT NULL
-        // developer_id bigint(24) unsigned NOT NULL
-        // technology_id bigint(24) unsigned NOT NULL
-        // created_at datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP
-        // updated_at datetime NULL
-        $sql = "
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+        //$sql = "SELECT * FROM `gardener_plantation`";
+        $ifExist = $this->database->query( "
+        SELECT * FROM `gardener_plantation`");
+
+        if ($ifExist != false) {
+            $sql = "
         CREATE TABLE `gardener_plantation` (
             `id_plantation` bigint(24) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
             `id_user` bigint(24) unsigned NOT NULL,
@@ -48,10 +46,9 @@ class GardenerPlantation
         );
         ";
 
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        // STEP WP CUSTOMTABLE execution de la requête de création de la table
-        // DOC WP CUSTOMTABLE dbDelta https://developer.wordpress.org/reference/functions/dbdelta/
-        dbDelta($sql);
+            // STEP WP CUSTOMTABLE execution de la requête de création de la table
+            dbDelta($sql);
+        }
     }
 
     public function dropTable()
@@ -77,5 +74,94 @@ class GardenerPlantation
             'gardener_plantation',
             $data
         );
+    }
+
+    public function delete($id_user, $id_plantation)
+    {
+        $where = [
+            "id_user" => $id_user,
+            "id_plantation" => $id_plantation
+        ];
+
+        $this->database->delete(
+            'gardener_plantation',
+            $where
+        );
+    }
+
+    public function update($id_user, $id_plantation, $id_plante, $status = 1)
+    {
+        $data = [
+            "id_plante" => $id_plante,
+            "status" => $status,
+            "updated_at" => date('Y-m-d H-i-s')
+        ];
+
+        $where = [
+            "id_user" => $id_user,
+            "id_plantation" => $id_plantation
+        ];
+
+        $this->database->update(
+            'gardener_plantation',
+            $data,
+            $where
+        );
+    }
+
+    public function getPlantationsByUserId($id_user)
+    {
+        $sql = "
+            SELECT 
+                *
+            FROM `gardener_plantation`
+            WHERE
+                `id_user` = %d
+        ";
+
+        $rows = $this->executePreparedStatement(
+            $sql,
+            [
+                $id_user
+            ]
+            );
+
+
+        $results = [];
+
+        foreach($rows as $values){
+            $results[] =  $values;
+        }
+
+        return $results;
+
+    }
+
+    public function getAllPlantations($id_user)
+    {
+        $sql = "
+            SELECT 
+                *
+            FROM `gardener_plantation`
+            WHERE
+                `id_user` = %d
+        ";
+
+        $rows = $this->executePreparedStatement(
+            $sql,
+            [
+                $id_user
+            ]
+            );
+
+
+        $results = [];
+
+        foreach($rows as $values){
+            $results[] =  $values;
+        }
+
+        return $results;
+
     }
 }
