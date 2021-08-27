@@ -20,29 +20,6 @@ class Api
         add_action('rest_api_init', [$this, 'api_meta']);
     }
 
-<<<<<<< HEAD
-    public function api_meta()
-    {
-
-        register_rest_field(
-            'user',
-            'region',
-            array(
-                'get_callback' => [$this, 'get_user_meta_for_api'],
-                'schema' => null,
-            )
-        );
-    }
-
-    public function get_user_meta_for_api($object)
-    {
-        $user_id = $object['id'];
-        //var_dump(get_post_meta($post_id));die;
-
-        return get_user_meta($user_id, 'region', true);
-    }
-=======
->>>>>>> develop
 
     public function initialize()
     {
@@ -61,11 +38,7 @@ class Api
 
         register_rest_route(
             'monpotager/v1',
-<<<<<<< HEAD
-            '/plante-save',
-=======
             '/plantation-save', 
->>>>>>> develop
             [
                 'methods' => 'post',
                 'callback' => [$this, 'plantationSave']
@@ -100,13 +73,6 @@ class Api
         );
     }
 
-<<<<<<< HEAD
-    public function planteSave(WP_REST_Request $request)
-    {
-        $id_user = $request->get_param('id_user');
-        $id_plante = $request->get_param('id_plante');
-        //$status = $request->get_param('status');
-=======
     public function plantationSelect(WP_REST_Request $request)
     {
         $id_user = $request->get_param('id_user');
@@ -135,7 +101,6 @@ class Api
 
         // $user = wp_get_current_user();
         // $id_user = $user->id;
->>>>>>> develop
 
         //if (in_array('gardener', (array) $user->roles)) {
         
@@ -151,20 +116,6 @@ class Api
         ];
     }
 
-<<<<<<< HEAD
-        //if (in_array('gardener', (array) $user->roles)) {
-        $gardenerPlantation = new GardenerPlantation();
-        $gardenerPlantation->insert($id_user, $id_plante );
-
-        return [
-            'status' => 'sucess',
-        ];
-        // } else  {
-        //     return [
-        //          'status' => 'failed',
-        //     ];
-        // }   
-=======
     public function plantationDelete(WP_REST_Request $request)
     {
         $id_plantation = $request->get_param('id_plantation');
@@ -207,7 +158,6 @@ class Api
             //      'status' => 'failed',
             // ];
         //}
->>>>>>> develop
     }
 
     public function inscription(WP_REST_Request $request)
@@ -252,9 +202,6 @@ class Api
             ];
         }
     }
-<<<<<<< HEAD
-}
-=======
 
     public function api_meta()
     {
@@ -277,4 +224,3 @@ class Api
         return get_user_meta( $user_id, 'region', true);
     }   
 }
->>>>>>> develop
