@@ -2,7 +2,7 @@
 
 namespace monPotager;
 
-class MetaPeriode
+class metaPeriod
 {
     const calendrier = [
         'Janvier'   => '2021-01-01',
@@ -45,8 +45,6 @@ class MetaPeriode
     public function metaboxesloadSemi()
     {
         add_meta_box('regions', 'Periode de culture ', [$this, 'loadRegions'], 'plante', 'normal');
-
-        add_meta_box('colors_type', 'Couleurs de type', [$this, 'loadcolor'], 'plante', 'side');
     }
 
     public function loadRegions($post)
@@ -164,20 +162,5 @@ class MetaPeriode
                 delete_post_meta($post_ID, 'fin_recolte' .$value);
             }
         }
-    }
-
-
-
-    public function loadcolor($post)
-    {
-        // *************** START SEMIS ****************** //
-        $valueMonthBeginsSemis = get_post_meta($post->ID, 'colorsType', true);
-
-        echo '<label for="dispo_meta">Indiquez le type pour la couleur affiché sur le calendrier </label>';
-        echo '<select name="nameColors">';
-        foreach (self::colors as $month => $TabValue) {
-            echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '" >' . $month . '</option>';
-        }
-        echo '</select>';
     }
 }

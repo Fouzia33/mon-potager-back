@@ -11,8 +11,8 @@ class Plugin
      */
     public function __construct()
     {
-        $maSemi = new MetaPeriode();
-        $userPlanting = new User_planting;
+        $metaPeriod = new metaPeriod();
+        $userPlanting = new User_planting();
 
         add_action('init', [$this, 'createPlanteCPT']);
 
@@ -22,13 +22,13 @@ class Plugin
 
         add_action('init', [$this, 'season_Taxonomy']);
 
-        add_action('add_meta_boxes', [$maSemi, 'metaboxesloadSemi']);
-        add_action('save_post', [$maSemi, 'save_metaboxe']);
-
-        add_action('rest_api_init', [$this, 'api_meta']);
+        add_action('add_meta_boxes', [$metaPeriod, 'metaboxesloadSemi']);
+        add_action('save_post', [$metaPeriod, 'save_metaboxe']);
 
         add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
         add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
+
+        add_action('rest_api_init', [$this, 'api_meta']);
     }
 
     public function activate()
