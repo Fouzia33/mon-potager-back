@@ -107,4 +107,32 @@ class GardenerPlantation
             $where
         );
     }
+
+    public function getPlantationByUserId($id_user)
+    {
+        $sql = "
+            SELECT 
+                *
+            FROM `gardener_plantation`
+            WHERE
+                `id_user` = %d
+        ";
+
+        $rows = $this->executePreparedStatement(
+            $sql,
+            [
+                $id_user
+            ]
+            );
+
+
+        $results = [];
+
+        foreach($rows as $values){
+            $results[] =  $values;
+        }
+
+        return $results;
+
+    }
 }
