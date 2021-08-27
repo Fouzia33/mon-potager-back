@@ -5,6 +5,7 @@ namespace monPotager;
 class MetaPeriode
 {
     const calendrier = [
+        'none'      => 'empty',
         'Janvier'   => '2021-01-01',
         'Février'   => '2021-02-01',
         'Mars'      => '2021-03-01',
@@ -16,8 +17,7 @@ class MetaPeriode
         'Septembre' => '2021-09-01',
         'Octobre'   => '2021-10-01',
         'Novembre'  => '2021-11-01',
-        'Décembre'  => '2021-12-01',
-        'none'      => 'empty',
+        'Décembre'  => '2021-12-01'
     ];
 
     const colors = [
