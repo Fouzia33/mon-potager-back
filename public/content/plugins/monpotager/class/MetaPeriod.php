@@ -27,19 +27,19 @@ class MetaPeriod
     ];
 
     const regions = [
-        'Auvergne'      => '_auvergne',
-        'Bourgogne'     => '_bourgogne',
-        'Bretagne' => '_bretagne',
-        'Centre' => '_centre',
-        'Corse' => '_corse',
-        'Est' => '_est',
-        'Hauts' => '_hauts',
-        'Ile' => '_ile',
-        'Normandie' => '_normandie',
-        'Aquitaine' => '_aquitaine',
-        'Occitanie' => '_occitanie',
-        'Loire' => '_loire',
-        'Azur' => '_azur',
+            'Auvergne-Rhône-Alpes'       => '_auvergne',
+            'Bourgogne-Franche-Comté'    => '_bourgogne',
+            'Bretagne'                   => '_bretagne',
+            'Centre-Val de Loire'        => '_centre',
+            'Corse'                      => '_corse',
+            'Grand Est'                  => '_est',
+            'Hauts-de-France'            => '_hauts',
+            'Île-de-France'              => '_ile',
+            'Normandie'                  => '_normandie',
+            'Nouvelle-Aquitaine'         => '_aquitaine',
+            'Occitanie'                  => '_occitanie',
+            'Pays de la Loire'           => '_loire',
+            'Provence-Alpes-Côte d’Azur' => '_azur',
     ];
 
 
