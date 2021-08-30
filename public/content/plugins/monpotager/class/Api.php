@@ -133,7 +133,6 @@ class Api
 
         if(isset($region)) {
             update_user_meta($user_id, 'region', $region);
-
         }
 
         return 'sucess';
@@ -150,9 +149,7 @@ class Api
          if( wp_delete_user($id_user))
          {
             return 'succes'; 
-
-         }else {
-
+         } else {
             return 'user not found';
          }
     }
@@ -263,7 +260,6 @@ class Api
         if (is_int($userCreateResult)) {
 
             $user = new WP_User($userCreateResult);
-
             add_user_meta($user->id, 'region', $region, true);
 
             // Remove role
@@ -280,6 +276,7 @@ class Api
                 'region'    => $region,
                 'role'      => 'gardener'
             ];
+            
         } else {  // if the user was not created, the error occurred
             return [
                 'success'=> false,
