@@ -20,8 +20,6 @@ class Plugin
 
         add_action('init', [$this, 'createPlanteRegionsTaxonomy']);
 
-        add_action('init', [$this, 'season_Taxonomy']);
-
         add_action('add_meta_boxes', [$metaPeriod, 'metaboxesloadSemi']);
         add_action('save_post', [$metaPeriod, 'save_metaboxe']);
 
@@ -117,21 +115,6 @@ class Plugin
             ],
         );
     }
-
-    public function season_Taxonomy()
-    {
-        register_taxonomy(
-            'season',
-            ['plante'],
-            [
-                'label' => 'Saisons',
-                'show_in_rest'  => true,
-                'hierarchical'  => false,
-                'public'        => true,
-            ],
-        );
-    }
-
 
     public function api_meta()
     {
