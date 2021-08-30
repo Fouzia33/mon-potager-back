@@ -5,7 +5,7 @@ namespace monPotager;
 class MetaPeriod
 {
     const calendrier = [
-        'none'      => 'empty',
+        'none'      => '',
         'Janvier'   => '2021-01-01',
         'Février'   => '2021-02-01',
         'Mars'      => '2021-03-01',
@@ -65,11 +65,7 @@ class MetaPeriod
             echo '<select name="start_semi' . $value . '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                if($valueMonthBeginsSemis === $TabValue) {  // If the value of the select is the same
-                    echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
-                } else {
-                    echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '">' . $month . '</option>';
-                }
+                echo '<option' . selected($TabValue, $valueMonthBeginsSemis) . ' value="' . $TabValue . '" >' . $month . '</option>';
             }
             echo '</select>';
 
@@ -80,11 +76,7 @@ class MetaPeriod
             echo '<select name="end_semi' . $value . '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                if($valueMonthEndsSemis === $TabValue) { // If the value of the select is the same
-                    echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
-                } else {
-                    echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '">' . $month . '</option>';
-                }
+                echo '<option' . selected($TabValue, $valueMonthEndsSemis) . ' value="' . $TabValue . '">' . $month . '</option>';
             }
             echo '</select><br>';
 
@@ -98,11 +90,7 @@ class MetaPeriod
             echo '<select name="start_plant' . $value . '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                if ($valueMonthBeginsPlants === $TabValue) { // If the value of the select is the same
-                    echo '<option' . selected($TabValue, $valueMonthBeginsPlants, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
-                } else {
-                    echo '<option' . selected($TabValue, $valueMonthBeginsPlants, false) . ' value="' . $TabValue . '">' . $month . '</option>';
-                }
+                    echo '<option' . selected($TabValue, $valueMonthBeginsPlants) . ' value="' . $TabValue . '">' . $month . '</option>';
             }
 
             echo '</select>';
@@ -115,11 +103,8 @@ class MetaPeriod
             echo '<select name="end_plant' . $value . '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                if ($valueMonthEndsPlants === $TabValue) { // If the value of the current select is the same
-                    echo '<option' . selected($TabValue, $valueMonthEndsPlants, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
-                } else {
-                    echo '<option' . selected($TabValue, $valueMonthEndsPlants, false) . ' value="' . $TabValue . '">' . $month . '</option>';
-                }
+                    echo '<option' . selected($TabValue, $valueMonthEndsPlants) . ' value="' . $TabValue . '">' . $month . '</option>';
+                
             }
             echo '</select><br>';
 
@@ -134,11 +119,7 @@ class MetaPeriod
             echo '<select name="start_harvest'.$value.'">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                if ($TabValue === $valueMonthBeginsHarvest) { // If the value of the select is the same
-                    echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
-                } else {
-                    echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest, false) . ' value="' . $TabValue . '">' . $month . '</option>';
-                }
+                    echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest) . ' value="' . $TabValue . '">' . $month . '</option>';  
             }
 
             echo '</select>';
@@ -151,11 +132,7 @@ class MetaPeriod
             echo '<select name="end_harvest' .$value. '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                if ($valueMonthEndsHarveset === $TabValue) { // If the value of the select is the same
-                    echo '<option' . selected($TabValue, $valueMonthEndsHarveset, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
-                } else {
-                    echo '<option' . selected($TabValue, $valueMonthEndsHarveset, false) . ' value="' . $TabValue . '">' . $month . '</option>';
-                }
+                echo '<option' . selected($TabValue, $valueMonthEndsHarveset) . ' value="' . $TabValue . '" >' . $month . '</option>';
             }
             echo '</select></div>';
             }
@@ -168,48 +145,37 @@ class MetaPeriod
             // *************** START SEMIS ****************** //
             //*************************************************/      
 
-            if (isset($_POST['start_semi' . $value]) && $_POST['start_semi' . $value] !== '' && $_POST['start_semi' . $value] != 'empty') {
+            if (isset($_POST['start_semi' . $value])) {
                 update_post_meta($post_ID, 'debut_semi' . $value, esc_html($_POST['start_semi' . $value]));
-            } else {
-                delete_post_meta($post_ID, 'debut_semi' . $value);
+          
             }
 
-            if (isset($_POST['end_semi' . $value]) && $_POST['end_semi' . $value] !== '' && $_POST['end_semi' . $value] !== 'empty') {
+            if (isset($_POST['end_semi' . $value])) {
                 update_post_meta($post_ID, 'fin_semi' . $value, esc_html($_POST['end_semi' . $value]));
-            } else {
-                delete_post_meta($post_ID, 'fin_semi' . $value);
             }
 
 
             // *************** START PLANTATION ************** //
             //*************************************************/ 
             
-            if (isset($_POST['start_plant' . $value]) && $_POST['start_plant' . $value] !== '' && $_POST['start_plant' . $value] !== 'empty')  {
+            if (isset($_POST['start_plant' . $value]))  {
                 update_post_meta($post_ID, 'debut_plant' . $value, esc_html($_POST['start_plant' . $value]));
-            } else {
-                delete_post_meta($post_ID, 'debut_plant' . $value);
-            }
+            } 
 
-            if (isset($_POST['end_plant' . $value]) && $_POST['end_plant' . $value] !== '' && $_POST['end_plant' . $value] !== 'empty') {
+            if (isset($_POST['end_plant' . $value])) {
                 update_post_meta($post_ID, 'fin_plant' . $value, esc_html($_POST['end_plant' . $value]));
-            } else {
-                delete_post_meta($post_ID, 'fin_plant' . $value);
             }
 
 
             // *************** START HARVEST ****************** //
             //*************************************************/
 
-            if (isset($_POST['start_harvest' .$value]) && $_POST['start_harvest' .$value] !== '' && $_POST['start_harvest' . $value] !== 'empty') {
+            if (isset($_POST['start_harvest' .$value])) {
                 update_post_meta($post_ID, 'debut_recolte'.$value, esc_html($_POST['start_harvest' .$value]));
-            } else {
-                delete_post_meta($post_ID, 'debut_recolte'.$value);
-            }
+            } 
 
-            if (isset($_POST['end_harvest'.$value]) && $_POST['end_harvest' .$value] !== '' && $_POST['end_harvest' . $value] !== 'empty') {
+            if (isset($_POST['end_harvest'.$value])) {
                 update_post_meta($post_ID, 'fin_recolte'.$value, esc_html($_POST['end_harvest' .$value]));
-            } else {
-                delete_post_meta($post_ID, 'fin_recolte' .$value);
             }
         }
     }
