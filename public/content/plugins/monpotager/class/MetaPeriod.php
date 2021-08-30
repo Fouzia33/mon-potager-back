@@ -76,7 +76,7 @@ class MetaPeriod
             echo '<select name="end_semi' . $value . '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                echo '<option' . selected($TabValue, $valueMonthBeginsSemis) . ' value="' . $TabValue . '">' . $month . '</option>';
+                echo '<option' . selected($TabValue, $valueMonthEndsSemis) . ' value="' . $TabValue . '">' . $month . '</option>';
             }
             echo '</select><br>';
 
