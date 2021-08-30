@@ -98,34 +98,45 @@ class Api
         global $wpdb;
 
         //$user = wp_get_current_user();
-
         $user_id = $request->get_param('id_user');
-
-        $username = $request->get_param('username');
+    
         $password = $request->get_param('password');
+        $username = $request->get_param('username');
         $email = $request->get_param('email');
         $region = $request->get_param('region');
 
-        $wpdb->update(
-        $wpdb->users, 
-        ['user_login' => $username],
-        ['user_password' => $password],
-        ['ID' => $user_id]
-        );
-        
-        wp_update_user(array(
-        'ID' => $user_id,
-        'user_email' => $email,
-        'user_nicename' => $username,
-        'display_name' => $username
-        ));
-        
-        
-        update_user_meta($user_id, 'region', $region);
+
+        if(isset($username)) {
+            $wpdb->update(
+                $wpdb->users, 
+                ['user_login' => $username],
+                ['ID' => $user_id]
+                );       
+                
+            wp_update_user(array(
+                'ID' => $user_id,
+                'user_nicename' => $username,
+                'display_name' => $username
+                ));
+        }
+
+        if(isset($password)) {
+            wp_set_password($password, $user_id);
+        }
+
+        if(isset($email)) {
+            wp_update_user(array(
+                'ID' => $user_id,
+                'user_email' => $email,
+                ));
+        }       
+
+        if(isset($region)) {
+            update_user_meta($user_id, 'region', $region);
+
+        }
 
         return 'sucess';
-
-
     }
 
 
@@ -144,10 +155,6 @@ class Api
 
             return 'user not found';
          }
-
-        //var_dump($response);exit;
-
-
     }
 
 
