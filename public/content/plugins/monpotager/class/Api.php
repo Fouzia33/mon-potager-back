@@ -72,7 +72,84 @@ class Api
                 'callback' => [$this, 'plantationSelect']
             ]
         );
+
+        register_rest_route(
+            'monpotager/v1',
+            '/user-delete', 
+            [
+                'methods' => 'post',
+                'callback' => [$this, 'userDelete']
+            ]
+        );
+
+        register_rest_route(
+            'monpotager/v1',
+            '/user-update', 
+            [
+                'methods' => 'post',
+                'callback' => [$this, 'userUpdate']
+            ]
+        );
+
     }
+
+    public function userUpdate(WP_REST_Request $request)
+    {
+        global $wpdb;
+
+        //$user = wp_get_current_user();
+
+        $user_id = $request->get_param('id_user');
+
+        $username = $request->get_param('username');
+        $password = $request->get_param('password');
+        $email = $request->get_param('email');
+        $region = $request->get_param('region');
+
+        $wpdb->update(
+        $wpdb->users, 
+        ['user_login' => $username],
+        ['user_password' => $password],
+        ['ID' => $user_id]
+        );
+        
+        wp_update_user(array(
+        'ID' => $user_id,
+        'user_email' => $email,
+        'user_nicename' => $username,
+        'display_nam' => $username
+        ));
+        
+        
+        update_user_meta($user_id, 'region', $region);
+
+        return 'sucess';
+
+
+    }
+
+
+    public function userDelete(WP_REST_Request $request)
+    {
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+        $id_user = $request->get_param('id_user');
+        //var_dump($id_user);exit;
+
+         if( wp_delete_user($id_user))
+         {
+            return 'succes'; 
+
+         }else {
+
+            return 'user not found';
+         }
+
+        //var_dump($response);exit;
+
+
+    }
+
 
     public function plantationSelect(WP_REST_Request $request)
     {
