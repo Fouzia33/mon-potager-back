@@ -5,7 +5,7 @@ namespace monPotager;
 class MetaPeriod
 {
     const calendrier = [
-        'none'      => 'empty',
+        //'none'      => 'empty',
         'Janvier'   => '2021-01-01',
         'Février'   => '2021-02-01',
         'Mars'      => '2021-03-01',
@@ -168,13 +168,13 @@ class MetaPeriod
             // *************** START SEMIS ****************** //
             //*************************************************/      
 
-            if (isset($_POST['start_semi' . $value]) && $_POST['start_semi' . $value] !== '' && $_POST['start_semi' . $value] != 'empty') {
+            if (isset($_POST['start_semi' . $value]) && $_POST['start_semi' . $value] != 'empty') {
                 update_post_meta($post_ID, 'debut_semi' . $value, esc_html($_POST['start_semi' . $value]));
             } else {
                 delete_post_meta($post_ID, 'debut_semi' . $value);
             }
 
-            if (isset($_POST['end_semi' . $value]) && $_POST['end_semi' . $value] !== '' && $_POST['end_semi' . $value] !== 'empty') {
+            if (isset($_POST['end_semi' . $value])  && $_POST['end_semi' . $value] !== 'empty') {
                 update_post_meta($post_ID, 'fin_semi' . $value, esc_html($_POST['end_semi' . $value]));
             } else {
                 delete_post_meta($post_ID, 'fin_semi' . $value);
@@ -184,13 +184,13 @@ class MetaPeriod
             // *************** START PLANTATION ************** //
             //*************************************************/ 
             
-            if (isset($_POST['start_plant' . $value]) && $_POST['start_plant' . $value] !== '' && $_POST['start_plant' . $value] !== 'empty')  {
+            if (isset($_POST['start_plant' . $value])  && $_POST['start_plant' . $value] !== 'empty')  {
                 update_post_meta($post_ID, 'debut_plant' . $value, esc_html($_POST['start_plant' . $value]));
             } else {
                 delete_post_meta($post_ID, 'debut_plant' . $value);
             }
 
-            if (isset($_POST['end_plant' . $value]) && $_POST['end_plant' . $value] !== '' && $_POST['end_plant' . $value] !== 'empty') {
+            if (isset($_POST['end_plant' . $value])  && $_POST['end_plant' . $value] !== 'empty') {
                 update_post_meta($post_ID, 'fin_plant' . $value, esc_html($_POST['end_plant' . $value]));
             } else {
                 delete_post_meta($post_ID, 'fin_plant' . $value);
@@ -200,13 +200,13 @@ class MetaPeriod
             // *************** START HARVEST ****************** //
             //*************************************************/
 
-            if (isset($_POST['start_harvest' .$value]) && $_POST['start_harvest' .$value] !== '' && $_POST['start_harvest' . $value] !== 'empty') {
+            if (isset($_POST['start_harvest' .$value])  && $_POST['start_harvest' . $value] !== 'empty') {
                 update_post_meta($post_ID, 'debut_recolte'.$value, esc_html($_POST['start_harvest' .$value]));
             } else {
                 delete_post_meta($post_ID, 'debut_recolte'.$value);
             }
 
-            if (isset($_POST['end_harvest'.$value]) && $_POST['end_harvest' .$value] !== '' && $_POST['end_harvest' . $value] !== 'empty') {
+            if (isset($_POST['end_harvest'.$value])  && $_POST['end_harvest' . $value] !== 'empty') {
                 update_post_meta($post_ID, 'fin_recolte'.$value, esc_html($_POST['end_harvest' .$value]));
             } else {
                 delete_post_meta($post_ID, 'fin_recolte' .$value);
