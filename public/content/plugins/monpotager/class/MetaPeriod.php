@@ -168,12 +168,12 @@ class MetaPeriod
             // *************** START SEMIS ****************** //
             //*************************************************/      
 
-            if (isset($_POST['start_semi' . $value]) && $_POST['start_semi' . $value] != '') {
+            if (isset($_POST['start_semi' . $value])) {
                 update_post_meta($post_ID, 'debut_semi' . $value, esc_html($_POST['start_semi' . $value]));
           
             }
 
-            if (isset($_POST['end_semi' . $value])  && $_POST['end_semi' . $value] !== '') {
+            if (isset($_POST['end_semi' . $value])) {
                 update_post_meta($post_ID, 'fin_semi' . $value, esc_html($_POST['end_semi' . $value]));
             }
 
@@ -181,11 +181,11 @@ class MetaPeriod
             // *************** START PLANTATION ************** //
             //*************************************************/ 
             
-            if (isset($_POST['start_plant' . $value])  && $_POST['start_plant' . $value] !== '')  {
+            if (isset($_POST['start_plant' . $value]))  {
                 update_post_meta($post_ID, 'debut_plant' . $value, esc_html($_POST['start_plant' . $value]));
             } 
 
-            if (isset($_POST['end_plant' . $value])  && $_POST['end_plant' . $value] !== '') {
+            if (isset($_POST['end_plant' . $value])) {
                 update_post_meta($post_ID, 'fin_plant' . $value, esc_html($_POST['end_plant' . $value]));
             }
 
@@ -193,11 +193,11 @@ class MetaPeriod
             // *************** START HARVEST ****************** //
             //*************************************************/
 
-            if (isset($_POST['start_harvest' .$value])  && $_POST['start_harvest' . $value] !== '') {
+            if (isset($_POST['start_harvest' .$value])) {
                 update_post_meta($post_ID, 'debut_recolte'.$value, esc_html($_POST['start_harvest' .$value]));
             } 
 
-            if (isset($_POST['end_harvest'.$value])  || $_POST['end_harvest' . $value] !== '') {
+            if (isset($_POST['end_harvest'.$value])) {
                 update_post_meta($post_ID, 'fin_recolte'.$value, esc_html($_POST['end_harvest' .$value]));
             }
         }
