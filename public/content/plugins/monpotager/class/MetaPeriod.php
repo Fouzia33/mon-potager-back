@@ -65,11 +65,7 @@ class MetaPeriod
             echo '<select name="start_semi' . $value . '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                if($valueMonthBeginsSemis === $TabValue) {  // If the value of the select is the same
-                    echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
-                } else {
-                    echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '">' . $month . '</option>';
-                }
+                echo '<option' . selected($TabValue, $valueMonthBeginsSemis) . ' value="' . $TabValue . '" >' . $month . '</option>';
             }
             echo '</select>';
 
@@ -80,11 +76,7 @@ class MetaPeriod
             echo '<select name="end_semi' . $value . '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                if($valueMonthEndsSemis === $TabValue) { // If the value of the select is the same
-                    echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
-                } else {
-                    echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '">' . $month . '</option>';
-                }
+                echo '<option' . selected($TabValue, $valueMonthBeginsSemis) . ' value="' . $TabValue . '">' . $month . '</option>';
             }
             echo '</select><br>';
 
@@ -98,11 +90,7 @@ class MetaPeriod
             echo '<select name="start_plant' . $value . '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                if ($valueMonthBeginsPlants === $TabValue) { // If the value of the select is the same
-                    echo '<option' . selected($TabValue, $valueMonthBeginsPlants, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
-                } else {
-                    echo '<option' . selected($TabValue, $valueMonthBeginsPlants, false) . ' value="' . $TabValue . '">' . $month . '</option>';
-                }
+                    echo '<option' . selected($TabValue, $valueMonthBeginsPlants) . ' value="' . $TabValue . '">' . $month . '</option>';
             }
 
             echo '</select>';
@@ -115,11 +103,8 @@ class MetaPeriod
             echo '<select name="end_plant' . $value . '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                if ($valueMonthEndsPlants === $TabValue) { // If the value of the current select is the same
-                    echo '<option' . selected($TabValue, $valueMonthEndsPlants, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
-                } else {
-                    echo '<option' . selected($TabValue, $valueMonthEndsPlants, false) . ' value="' . $TabValue . '">' . $month . '</option>';
-                }
+                    echo '<option' . selected($TabValue, $valueMonthEndsPlants) . ' value="' . $TabValue . '">' . $month . '</option>';
+                
             }
             echo '</select><br>';
 
@@ -134,11 +119,7 @@ class MetaPeriod
             echo '<select name="start_harvest'.$value.'">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                if ($TabValue === $valueMonthBeginsHarvest) { // If the value of the select is the same
-                    echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
-                } else {
-                    echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest, false) . ' value="' . $TabValue . '">' . $month . '</option>';
-                }
+                    echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest) . ' value="' . $TabValue . '">' . $month . '</option>';  
             }
 
             echo '</select>';
@@ -151,11 +132,7 @@ class MetaPeriod
             echo '<select name="end_harvest' .$value. '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                if ($valueMonthEndsHarveset === $TabValue) { // If the value of the select is the same
-                    echo '<option' . selected($TabValue, $valueMonthEndsHarveset, false) . ' value="' . $TabValue . '" selected>' . $month . '</option>';
-                } else {
-                    echo '<option' . selected($TabValue, $valueMonthEndsHarveset, false) . ' value="' . $TabValue . '">' . $month . '</option>';
-                }
+                echo '<option' . selected($TabValue, $valueMonthEndsHarveset) . ' value="' . $TabValue . '" >' . $month . '</option>';
             }
             echo '</select></div>';
             }
