@@ -117,7 +117,7 @@ class Api
         'ID' => $user_id,
         'user_email' => $email,
         'user_nicename' => $username,
-        'display_nam' => $username
+        'display_name' => $username
         ));
         
         
