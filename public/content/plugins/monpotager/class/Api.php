@@ -206,7 +206,6 @@ class Api
 
     public function api_meta()
     {
-
         register_rest_field(
             'user',
             'region',
