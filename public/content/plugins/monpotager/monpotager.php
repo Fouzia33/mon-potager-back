@@ -27,14 +27,21 @@ register_deactivation_hook(
 
 add_filter('rest_user_query', 'remove_has_published_posts_from_api_user_query', 10, 1); // Hook / Callback / Priority / Accepted arguments
 
-add_filter( 'excerpt_length', function($length){
+add_filter( 'excerpt_length', 'ExcerptLength', 50);
+
+add_filter('excerpt_more', 'ExcerptMore', 50);
+
+remove_filter('the_content','wpautop');
+
+remove_filter('the_excerpt','wpautop');
+
+function ExcerptLength($length){
    return 10;
-}, 50);
+}
 
-
-add_filter('excerpt_more', function ($more) {
+function ExcerptMore ($more) {
    return '';
-}, 50);
+};
 
 function remove_has_published_posts_from_api_user_query($prepared_args)
 {
