@@ -29,7 +29,11 @@ class Plugin
 
         add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
         add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
+        
+        
     }
+
+    
 
     public function activate()
     {
@@ -83,7 +87,9 @@ class Plugin
                 'title',
                 'thumbnail',
                 'editor',
+                'excerpt',
             ],
+            
         ]);
     }
 
