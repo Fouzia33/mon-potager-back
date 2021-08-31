@@ -5,7 +5,7 @@ namespace monPotager;
 class MetaPeriod
 {
     const calendrier = [
-        'none'      => '',
+        //'none'      => '',
         'Janvier'   => '2021-01-01',
         'Février'   => '2021-02-01',
         'Mars'      => '2021-03-01',
@@ -27,30 +27,41 @@ class MetaPeriod
     ];
 
     const regions = [
-            'Auvergne-Rhône-Alpes'       => '_auvergne',
-            'Bourgogne-Franche-Comté'    => '_bourgogne',
-            'Bretagne'                   => '_bretagne',
-            'Centre-Val de Loire'        => '_centre',
-            'Corse'                      => '_corse',
-            'Grand Est'                  => '_est',
-            'Hauts-de-France'            => '_hauts',
-            'Île-de-France'              => '_ile',
-            'Normandie'                  => '_normandie',
-            'Nouvelle-Aquitaine'         => '_aquitaine',
-            'Occitanie'                  => '_occitanie',
-            'Pays de la Loire'           => '_loire',
-            'Provence-Alpes-Côte d’Azur' => '_azur',
+        'Auvergne-Rhône-Alpes'       => '_auvergne',
+        'Bourgogne-Franche-Comté'    => '_bourgogne',
+        'Bretagne'                   => '_bretagne',
+        'Centre-Val de Loire'        => '_centre',
+        'Corse'                      => '_corse',
+        'Grand Est'                  => '_est',
+        'Hauts-de-France'            => '_hauts',
+        'Île-de-France'              => '_ile',
+        'Normandie'                  => '_normandie',
+        'Nouvelle-Aquitaine'         => '_aquitaine',
+        'Occitanie'                  => '_occitanie',
+        'Pays de la Loire'           => '_loire',
+        'Provence-Alpes-Côte d’Azur' => '_azur',
     ];
 
+
+   
     public function metaboxesloadSemi()
     {
         add_meta_box('regions', 'Periode de culture ', [$this, 'loadRegions'], 'plante', 'normal');
     }
 
     public function loadRegions($post)
-    {
-        foreach (self::regions as $region => $value) {
+    {         
+        $newCalendar = [];
+        foreach(self::calendrier as $month => $value) {
+            $years = '2048';
+            $newDate = substr_replace($value, $years, 0, 4);
+            $newCalendar[$month] = $newDate;
+            }
+        var_dump($newCalendar);
+        var_dump(self::calendrier);
 
+        
+        foreach (self::regions as $region => $value) {
             // *************** START SEMIS ****************** //
             //*************************************************/
 
