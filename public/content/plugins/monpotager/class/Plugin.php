@@ -27,7 +27,10 @@ class Plugin
 
         add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
         add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
+
+       
     }
+
 
     public function activate()
     {
@@ -81,6 +84,7 @@ class Plugin
                 'title',
                 'thumbnail',
                 'editor',
+                'excerpt'
             ],
         ]);
     }
@@ -131,9 +135,7 @@ class Plugin
 
     public function get_post_meta_for_api($object)
     {
-        
         $post_id = $object['id'];
-        //var_dump(get_post_meta($post_id));die;
         
         return get_post_meta($post_id);
     }   

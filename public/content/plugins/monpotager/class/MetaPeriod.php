@@ -42,7 +42,6 @@ class MetaPeriod
             'Provence-Alpes-Côte d’Azur' => '_azur',
     ];
 
-
     public function metaboxesloadSemi()
     {
         add_meta_box('regions', 'Periode de culture ', [$this, 'loadRegions'], 'plante', 'normal');

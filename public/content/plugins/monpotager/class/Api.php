@@ -187,13 +187,22 @@ class Api
         //if (in_array('gardener', (array) $user->roles)) {
         
         $gardenerPlantation = new GardenerPlantation();
-        $gardenerPlantation->update($id_user, $id_plantation, $id_plante, $status);
+
+        if(isset($status) && isset($id_plante)) {
+            $gardenerPlantation->update($id_user, $id_plantation, $id_plante, $status);
+
+        } else if(isset($id_plante) && $status === null)  {
+            $gardenerPlantation->update($id_user, $id_plantation, $id_plante);
+        } else {
+            $gardenerPlantation->update($id_user, $id_plantation, $status);
+        }
 
         return [
             'status requête'=> 'sucess',
             'id_user'       => $id_user,
             'id_plantation' => $id_plantation, 
             'id_plante'     => $id_plante,
+
             'status'        => $status
         ];
     }
@@ -220,7 +229,6 @@ class Api
 
     public function plantationSave(WP_REST_Request $request) {
         $id_plante = $request->get_param('id_plante');
-        //$status = $request->get_param('status');
         $id_user = $request->get_param('id_user');
 
         // $user = wp_get_current_user();
