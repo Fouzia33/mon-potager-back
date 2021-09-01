@@ -36,11 +36,11 @@ remove_filter('the_content','wpautop');
 remove_filter('the_excerpt','wpautop');
 
 function ExcerptLength($length){
-   return 10;
+   return 31 ;
 }
 
 function ExcerptMore ($more) {
-   return '';
+   return '[...]';
 };
 
 function remove_has_published_posts_from_api_user_query($prepared_args)
