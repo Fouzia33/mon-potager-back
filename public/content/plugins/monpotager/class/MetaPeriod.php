@@ -42,12 +42,9 @@ class MetaPeriod
             'Provence-Alpes-Côte d’Azur' => '_azur',
     ];
 
-
     public function metaboxesloadSemi()
     {
         add_meta_box('regions', 'Periode de culture ', [$this, 'loadRegions'], 'plante', 'normal');
-
-        add_meta_box('colors_type', 'Couleurs de type', [$this, 'loadcolor'], 'plante', 'side');
     }
 
     public function loadRegions($post)
@@ -90,7 +87,7 @@ class MetaPeriod
             echo '<select name="start_plant' . $value . '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                    echo '<option' . selected($TabValue, $valueMonthBeginsPlants) . ' value="' . $TabValue . '">' . $month . '</option>';
+                echo '<option' . selected($TabValue, $valueMonthBeginsPlants) . ' value="' . $TabValue . '">' . $month . '</option>';
             }
 
             echo '</select>';
@@ -103,8 +100,7 @@ class MetaPeriod
             echo '<select name="end_plant' . $value . '">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                    echo '<option' . selected($TabValue, $valueMonthEndsPlants) . ' value="' . $TabValue . '">' . $month . '</option>';
-                
+                echo '<option' . selected($TabValue, $valueMonthEndsPlants) . ' value="' . $TabValue . '">' . $month . '</option>';
             }
             echo '</select><br>';
 
@@ -119,7 +115,7 @@ class MetaPeriod
             echo '<select name="start_harvest'.$value.'">';
 
             foreach (self::calendrier as $month => $TabValue) {
-                    echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest) . ' value="' . $TabValue . '">' . $month . '</option>';  
+                echo '<option ' . selected($TabValue, $valueMonthBeginsHarvest) . ' value="' . $TabValue . '">' . $month . '</option>';
             }
 
             echo '</select>';
@@ -135,7 +131,7 @@ class MetaPeriod
                 echo '<option' . selected($TabValue, $valueMonthEndsHarveset) . ' value="' . $TabValue . '" >' . $month . '</option>';
             }
             echo '</select></div>';
-            }
+        }
     }
 
     public function save_metaboxe($post_ID)
@@ -143,11 +139,10 @@ class MetaPeriod
         foreach (self::regions as $region => $value) {
 
             // *************** START SEMIS ****************** //
-            //*************************************************/      
+            //*************************************************/
 
             if (isset($_POST['start_semi' . $value])) {
                 update_post_meta($post_ID, 'debut_semi' . $value, esc_html($_POST['start_semi' . $value]));
-          
             }
 
             if (isset($_POST['end_semi' . $value])) {
@@ -156,11 +151,11 @@ class MetaPeriod
 
 
             // *************** START PLANTATION ************** //
-            //*************************************************/ 
+            //*************************************************/
             
-            if (isset($_POST['start_plant' . $value]))  {
+            if (isset($_POST['start_plant' . $value])) {
                 update_post_meta($post_ID, 'debut_plant' . $value, esc_html($_POST['start_plant' . $value]));
-            } 
+            }
 
             if (isset($_POST['end_plant' . $value])) {
                 update_post_meta($post_ID, 'fin_plant' . $value, esc_html($_POST['end_plant' . $value]));
@@ -172,25 +167,11 @@ class MetaPeriod
 
             if (isset($_POST['start_harvest' .$value])) {
                 update_post_meta($post_ID, 'debut_recolte'.$value, esc_html($_POST['start_harvest' .$value]));
-            } 
+            }
 
             if (isset($_POST['end_harvest'.$value])) {
                 update_post_meta($post_ID, 'fin_recolte'.$value, esc_html($_POST['end_harvest' .$value]));
             }
         }
-    }
-
-
-
-    public function loadcolor($post)
-    {
-        $valueMonthBeginsSemis = get_post_meta($post->ID, 'colorsType', true);
-
-        echo '<label for="dispo_meta">Indiquez le type pour la couleur affiché sur le calendrier </label>';
-        echo '<select name="nameColors">';
-        foreach (self::colors as $month => $TabValue) {
-            echo '<option' . selected($TabValue, $valueMonthBeginsSemis, false) . ' value="' . $TabValue . '" >' . $month . '</option>';
-        }
-        echo '</select>';
     }
 }

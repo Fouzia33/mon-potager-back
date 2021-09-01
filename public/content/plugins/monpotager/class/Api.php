@@ -133,7 +133,6 @@ class Api
 
         if(isset($region)) {
             update_user_meta($user_id, 'region', $region);
-
         }
 
         return 'sucess';
@@ -150,9 +149,7 @@ class Api
          if( wp_delete_user($id_user))
          {
             return 'succes'; 
-
-         }else {
-
+         } else {
             return 'user not found';
          }
     }
@@ -190,13 +187,22 @@ class Api
         //if (in_array('gardener', (array) $user->roles)) {
         
         $gardenerPlantation = new GardenerPlantation();
-        $gardenerPlantation->update($id_user, $id_plantation, $id_plante, $status);
+
+        if(isset($status) && isset($id_plante)) {
+            $gardenerPlantation->update($id_user, $id_plantation, $id_plante, $status);
+
+        } else if(isset($id_plante) && $status === null)  {
+            $gardenerPlantation->update($id_user, $id_plantation, $id_plante);
+        } else {
+            $gardenerPlantation->update($id_user, $id_plantation, $status);
+        }
 
         return [
             'status requête'=> 'sucess',
             'id_user'       => $id_user,
             'id_plantation' => $id_plantation, 
             'id_plante'     => $id_plante,
+
             'status'        => $status
         ];
     }
@@ -223,7 +229,6 @@ class Api
 
     public function plantationSave(WP_REST_Request $request) {
         $id_plante = $request->get_param('id_plante');
-        //$status = $request->get_param('status');
         $id_user = $request->get_param('id_user');
 
         // $user = wp_get_current_user();
@@ -263,7 +268,6 @@ class Api
         if (is_int($userCreateResult)) {
 
             $user = new WP_User($userCreateResult);
-
             add_user_meta($user->id, 'region', $region, true);
 
             // Remove role
@@ -280,6 +284,7 @@ class Api
                 'region'    => $region,
                 'role'      => 'gardener'
             ];
+            
         } else {  // if the user was not created, the error occurred
             return [
                 'success'=> false,
