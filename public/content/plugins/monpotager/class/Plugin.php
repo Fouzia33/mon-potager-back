@@ -2,6 +2,7 @@
 
 namespace monPotager;
 use monPotager\GardenerPlantationl;
+use WP_Query;
 
 class Plugin
 {
@@ -28,7 +29,23 @@ class Plugin
         add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
         add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
 
-       
+        add_action('save_post', [$this, 'testRemoveMeta']);   
+    }
+
+    public function testRemoveMeta()
+    {
+        $args = array(
+            'post_type' => 'plante'
+        );
+    
+        $post_query = new WP_Query($args);
+
+        if($post_query->have_posts() ) {
+            while(have_posts()) {
+                //delete_post_meta($post_query->id, );         
+            
+            }
+        }
     }
 
 
