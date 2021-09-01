@@ -154,7 +154,6 @@ class GardenerPlantation
             ]
             );
 
-
         $results = [];
 
         foreach($rows as $values){

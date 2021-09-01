@@ -18,8 +18,12 @@ class Api
         add_action('rest_api_init', [$this, 'initialize']);
 
         add_action('rest_api_init', [$this, 'api_meta']);
+
+<<<<<<< HEAD
+=======
     }
 
+>>>>>>> develop
 
     public function initialize()
     {
@@ -71,8 +75,92 @@ class Api
                 'callback' => [$this, 'plantationSelect']
             ]
         );
+
+        register_rest_route(
+            'monpotager/v1',
+            '/user-delete', 
+            [
+                'methods' => 'post',
+                'callback' => [$this, 'userDelete']
+            ]
+        );
+
+        register_rest_route(
+            'monpotager/v1',
+            '/user-update', 
+            [
+                'methods' => 'post',
+                'callback' => [$this, 'userUpdate']
+            ]
+        );
+
     }
 
+    public function userUpdate(WP_REST_Request $request)
+    {
+        global $wpdb;
+
+        //$user = wp_get_current_user();
+        $user_id = $request->get_param('id_user');
+    
+        $password = $request->get_param('password');
+        $username = $request->get_param('username');
+        $email = $request->get_param('email');
+        $region = $request->get_param('region');
+
+
+        if(isset($username)) {
+            $wpdb->update(
+                $wpdb->users, 
+                ['user_login' => $username],
+                ['ID' => $user_id]
+                );       
+                
+            wp_update_user(array(
+                'ID' => $user_id,
+                'user_nicename' => $username,
+                'display_name' => $username
+                ));
+        }
+
+        if(isset($password)) {
+            wp_set_password($password, $user_id);
+        }
+
+        if(isset($email)) {
+            wp_update_user(array(
+                'ID' => $user_id,
+                'user_email' => $email,
+                ));
+        }       
+
+        if(isset($region)) {
+            update_user_meta($user_id, 'region', $region);
+        }
+
+        return 'sucess';
+    }
+
+<<<<<<< HEAD
+=======
+
+    public function userDelete(WP_REST_Request $request)
+    {
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+        $id_user = $request->get_param('id_user');
+        //var_dump($id_user);exit;
+
+         if( wp_delete_user($id_user))
+         {
+            return 'succes'; 
+         } else {
+            return 'user not found';
+         }
+    }
+
+
+>>>>>>> develop
     public function plantationSelect(WP_REST_Request $request)
     {
         $id_user = $request->get_param('id_user');
@@ -105,13 +193,22 @@ class Api
         //if (in_array('gardener', (array) $user->roles)) {
         
         $gardenerPlantation = new GardenerPlantation();
-        $gardenerPlantation->update($id_user, $id_plantation, $id_plante, $status);
+
+        if(isset($status) && isset($id_plante)) {
+            $gardenerPlantation->update($id_user, $id_plantation, $id_plante, $status);
+
+        } else if(isset($id_plante) && $status === null)  {
+            $gardenerPlantation->update($id_user, $id_plantation, $id_plante);
+        } else {
+            $gardenerPlantation->update($id_user, $id_plantation, $status);
+        }
 
         return [
             'status requête'=> 'sucess',
             'id_user'       => $id_user,
             'id_plantation' => $id_plantation, 
             'id_plante'     => $id_plante,
+
             'status'        => $status
         ];
     }
@@ -138,7 +235,6 @@ class Api
 
     public function plantationSave(WP_REST_Request $request) {
         $id_plante = $request->get_param('id_plante');
-        //$status = $request->get_param('status');
         $id_user = $request->get_param('id_user');
 
         // $user = wp_get_current_user();
@@ -178,7 +274,6 @@ class Api
         if (is_int($userCreateResult)) {
 
             $user = new WP_User($userCreateResult);
-
             add_user_meta($user->id, 'region', $region, true);
 
             // Remove role
@@ -195,9 +290,10 @@ class Api
                 'region'    => $region,
                 'role'      => 'gardener'
             ];
+            
         } else {  // if the user was not created, the error occurred
             return [
-                'success' => false,
+                'success'=> false,
                 'error' => $userCreateResult
             ];
         }
@@ -205,7 +301,6 @@ class Api
 
     public function api_meta()
     {
-
         register_rest_field(
             'user',
             'region',
@@ -223,4 +318,8 @@ class Api
         
         return get_user_meta( $user_id, 'region', true);
     }   
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> develop

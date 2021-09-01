@@ -2,6 +2,7 @@
 
 namespace monPotager;
 use monPotager\GardenerPlantationl;
+use WP_Query;
 
 class Plugin
 {
@@ -20,8 +21,6 @@ class Plugin
 
         add_action('init', [$this, 'createPlanteRegionsTaxonomy']);
 
-        add_action('init', [$this, 'season_Taxonomy']);
-
         add_action('add_meta_boxes', [$metaPeriod, 'metaboxesloadSemi']);
         add_action('save_post', [$metaPeriod, 'save_metaboxe']);
 
@@ -29,7 +28,26 @@ class Plugin
 
         add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
         add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
+
+        add_action('save_post', [$this, 'testRemoveMeta']);   
     }
+
+    public function testRemoveMeta()
+    {
+        $args = array(
+            'post_type' => 'plante'
+        );
+    
+        $post_query = new WP_Query($args);
+
+        if($post_query->have_posts() ) {
+            while(have_posts()) {
+                //delete_post_meta($post_query->id, );         
+            
+            }
+        }
+    }
+
 
     public function activate()
     {
@@ -83,7 +101,9 @@ class Plugin
                 'title',
                 'thumbnail',
                 'editor',
+                'excerpt'
             ],
+            
         ]);
     }
 
@@ -118,21 +138,6 @@ class Plugin
         );
     }
 
-    public function season_Taxonomy()
-    {
-        register_taxonomy(
-            'season',
-            ['plante'],
-            [
-                'label' => 'Saisons',
-                'show_in_rest'  => true,
-                'hierarchical'  => false,
-                'public'        => true,
-            ],
-        );
-    }
-
-
     public function api_meta()
     {
 
@@ -148,9 +153,7 @@ class Plugin
 
     public function get_post_meta_for_api($object)
     {
-        
         $post_id = $object['id'];
-        //var_dump(get_post_meta($post_id));die;
         
         return get_post_meta($post_id);
     }   
