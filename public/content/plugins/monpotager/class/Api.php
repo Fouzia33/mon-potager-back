@@ -19,11 +19,8 @@ class Api
 
         add_action('rest_api_init', [$this, 'api_meta']);
 
-<<<<<<< HEAD
-=======
     }
 
->>>>>>> develop
 
     public function initialize()
     {
@@ -141,8 +138,6 @@ class Api
         return 'sucess';
     }
 
-<<<<<<< HEAD
-=======
 
     public function userDelete(WP_REST_Request $request)
     {
@@ -160,7 +155,6 @@ class Api
     }
 
 
->>>>>>> develop
     public function plantationSelect(WP_REST_Request $request)
     {
         $id_user = $request->get_param('id_user');
@@ -318,8 +312,4 @@ class Api
         
         return get_user_meta( $user_id, 'region', true);
     }   
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> develop
