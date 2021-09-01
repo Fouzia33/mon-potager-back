@@ -21,9 +21,9 @@ class MetaPeriod
     ];
 
     const colors = [
-        'Légume'     => '#067106',
-        'Fruit'      => '#0E5671',
-        'Arôme'      => '#719C0F'
+        'Légume'   => '#067106',
+        'Fruit'    => '#0E5671',
+        'Arôme'    => '#719C0F'
     ];
 
     const regions = [
@@ -51,7 +51,7 @@ class MetaPeriod
     {         
         $newCalendar = [];
         foreach(self::calendrier as $month => $value) {
-            $years = '2045';
+            $years = date('Y');
             $newDate = substr_replace($value, $years, 0, 4);
             if($month === 'none') {
                 $newDate = '';
@@ -165,6 +165,13 @@ class MetaPeriod
 
             if (isset($_POST['end_semi' . $value])) {
                 update_post_meta($post_ID, 'fin_semi' . $value, esc_html($_POST['end_semi' . $value]));
+                $date = $_POST['end_semi' . $value];
+                $month = array_search($date, self::calendrier);
+                if($month === 'none') {
+                    delete_post_meta($post_ID, 'fin_semi-month' . $value,);
+                } else {
+                    update_post_meta($post_ID, 'fin_semi-month' . $value, esc_html($month));
+                }
             }
 
 
@@ -173,22 +180,49 @@ class MetaPeriod
             
             if (isset($_POST['start_plant' . $value])) {
                 update_post_meta($post_ID, 'debut_plant' . $value, esc_html($_POST['start_plant' . $value]));
+                $date = $_POST['start_plant' . $value];
+                $month = array_search($date, self::calendrier);
+                if($month === 'none') {
+                    delete_post_meta($post_ID, 'debut_plant-month' . $value,);
+                } else {
+                    update_post_meta($post_ID, 'debut_plant-month' . $value, esc_html($month));
+                }
             }
 
             if (isset($_POST['end_plant' . $value])) {
                 update_post_meta($post_ID, 'fin_plant' . $value, esc_html($_POST['end_plant' . $value]));
+                $date = $_POST['end_plant' . $value];
+                $month = array_search($date, self::calendrier);
+                if($month === 'none') {
+                    delete_post_meta($post_ID, 'fin_plant-month' . $value,);
+                } else {
+                    update_post_meta($post_ID, 'fin_plant-month' . $value, esc_html($month));
+                }
             }
-
 
             // *************** START HARVEST ****************** //
             //*************************************************/
 
             if (isset($_POST['start_harvest' .$value])) {
                 update_post_meta($post_ID, 'debut_recolte'.$value, esc_html($_POST['start_harvest' .$value]));
+                $date = $_POST['end_plant' . $value];
+                $month = array_search($date, self::calendrier);
+                if($month === 'none') {
+                    delete_post_meta($post_ID, 'debut_recolte-month' . $value,);
+                } else {
+                    update_post_meta($post_ID, 'debut_recolte-month' . $value, esc_html($month));
+                }
             }
 
             if (isset($_POST['end_harvest'.$value])) {
                 update_post_meta($post_ID, 'fin_recolte'.$value, esc_html($_POST['end_harvest' .$value]));
+                $date = $_POST['end_harvest' . $value];
+                $month = array_search($date, self::calendrier);
+                if($month === 'none') {
+                    delete_post_meta($post_ID, 'fin_recolte-month' . $value,);
+                } else {
+                    update_post_meta($post_ID, 'fin_recolte-month' . $value, esc_html($month));
+                }
             }
         }
     }
