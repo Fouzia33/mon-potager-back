@@ -5,7 +5,7 @@ namespace monPotager;
 class MetaPeriod
 {
     const calendrier = [
-        //'none'      => '',
+        'none'      => '',
         'Janvier'   => '2021-01-01',
         'Février'   => '2021-02-01',
         'Mars'      => '2021-03-01',
@@ -41,8 +41,6 @@ class MetaPeriod
         'Pays de la Loire'           => '_loire',
         'Provence-Alpes-Côte d’Azur' => '_azur',
     ];
-
-
    
     public function metaboxesloadSemi()
     {
@@ -53,14 +51,16 @@ class MetaPeriod
     {         
         $newCalendar = [];
         foreach(self::calendrier as $month => $value) {
-            $years = '2048';
+            $years = '2045';
             $newDate = substr_replace($value, $years, 0, 4);
-            $newCalendar[$month] = $newDate;
+            if($month === 'none') {
+                $newDate = '';
             }
-        var_dump($newCalendar);
-        var_dump(self::calendrier);
+            $newCalendar[$month] = $newDate;
+        }
 
-        
+        //var_dump($newCalendar);exit;
+
         foreach (self::regions as $region => $value) {
             // *************** START SEMIS ****************** //
             //*************************************************/
@@ -72,7 +72,7 @@ class MetaPeriod
             echo '<label for="dispo_meta">Indiquez la periode de semis - Début : </label>';
             echo '<select name="start_semi' . $value . '">';
 
-            foreach (self::calendrier as $month => $TabValue) {
+            foreach ($newCalendar as $month => $TabValue) {
                 echo '<option' . selected($TabValue, $valueMonthBeginsSemis) . ' value="' . $TabValue . '" >' . $month . '</option>';
             }
             echo '</select>';
@@ -154,6 +154,13 @@ class MetaPeriod
 
             if (isset($_POST['start_semi' . $value])) {
                 update_post_meta($post_ID, 'debut_semi' . $value, esc_html($_POST['start_semi' . $value]));
+                $date = $_POST['start_semi' . $value];
+                $month = array_search($date, self::calendrier);
+                if($month === 'none') {
+                    delete_post_meta($post_ID, 'debut_semi-month' . $value,);
+                } else {
+                    update_post_meta($post_ID, 'debut_semi-month' . $value, esc_html($month));
+                }
             }
 
             if (isset($_POST['end_semi' . $value])) {
