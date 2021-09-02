@@ -18,7 +18,6 @@ class Api
         add_action('rest_api_init', [$this, 'initialize']);
 
         add_action('rest_api_init', [$this, 'api_meta']);
-
     }
 
 

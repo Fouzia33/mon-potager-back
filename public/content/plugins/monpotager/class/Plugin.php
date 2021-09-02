@@ -6,6 +6,23 @@ use WP_Query;
 
 class Plugin
 {
+
+    const regions = [
+        'Auvergne-Rhône-Alpes'       => '_auvergne',
+        'Bourgogne-Franche-Comté'    => '_bourgogne',
+        'Bretagne'                   => '_bretagne',
+        'Centre-Val de Loire'        => '_centre',
+        'Corse'                      => '_corse',
+        'Grand Est'                  => '_est',
+        'Hauts-de-France'            => '_hauts',
+        'Île-de-France'              => '_ile',
+        'Normandie'                  => '_normandie',
+        'Nouvelle-Aquitaine'         => '_aquitaine',
+        'Occitanie'                  => '_occitanie',
+        'Pays de la Loire'           => '_loire',
+        'Provence-Alpes-Côte d’Azur' => '_azur',
+    ];
+
     /**
      * Constructeur de la classe Plugin
      * rajoute les hooks pour créer les taxo et CPT
@@ -14,6 +31,7 @@ class Plugin
     {
         $metaPeriod = new MetaPeriod();
         $userPlanting = new User_planting;
+        $event = new Event();
 
         add_action('init', [$this, 'createPlanteCPT']);
 
@@ -29,26 +47,115 @@ class Plugin
         add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
         add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
 
-        add_action('save_post', [$this, 'testRemoveMeta']);   
+        add_action('save_post', [$this, 'recoverAllDatas']);   
     }
 
-    public function testRemoveMeta()
+    public function recoverAllDatas()
     {
         $args = array(
-            'post_type' => 'plante'
+            'post_type' => 'plante',
+            'posts_per_page'=> -1, 
         );
     
         $post_query = new WP_Query($args);
 
-        if($post_query->have_posts() ) {
-            while(have_posts()) {
-                //delete_post_meta($post_query->id, );         
-            
+        foreach ($post_query->posts as $post) {
+
+            $planteId = $post->ID;
+            $planteTitle = $post->post_title;
+
+            $periodeMetaBox = get_post_meta($planteId);
+
+            $regionSelect = 'Auvergne-Rhône-Alpes';
+            $regionSelect_id = 5;
+            $termsRegions = wp_get_post_terms($planteId, 'regions'); 
+            //var_dump($termsRegions);exit;
+            foreach($termsRegions as $region) {
+                if($region->id === $regionSelect_id) {
+                    //!! TODOOOOOOO
+
+                }
+            }
+
+            foreach (self::regions as $region => $value) {
+                if ($region === $regionSelect) {
+                    $debut_semi = $periodeMetaBox['debut_semi' . $value];
+                    $debut_plant = $periodeMetaBox['debut_plant' . $value];
+                    $debut_recolte = $periodeMetaBox['debut_recolte' . $value];
+
+                    $semis = substr($debut_semi[0], 5, 2);
+                    $plantations = substr($debut_plant[0], 5, 2);
+                    $recoltes = substr($debut_recolte[0], 5, 2);
+
+                    $listPeriodeRegions[$planteTitle]['id'] = $planteId; // Place l'id de la plante dans le tableau
+
+                    if ($semis !== false) {
+                        $listPeriodeRegions[$planteTitle]['debut_semi'][$region] = $semis;
+                    } else {
+                        $listPeriodeRegions[$planteTitle]['debut_semi'][$region] = null;
+                    }
+
+                    if ($plantations !== false) {
+                        $listPeriodeRegions[$planteTitle]['debut_plant'][$region] = $plantations;
+                    } else {
+                        $listPeriodeRegions[$planteTitle]['debut_plant'][$region] = null;
+                    }
+
+                    if ($recoltes !== false) {
+                        $listPeriodeRegions[$planteTitle]['debut_recolte'][$region] = $recoltes;
+                    } else {
+                        $listPeriodeRegions[$planteTitle]['debut_recolte'][$region] = null;
+                    }
+                }
             }
         }
+        $this->sendEvent($listPeriodeRegions, $regionSelect);
     }
 
+    public function sendEvent($liste, $regionSelect)
+    {
+        $ActualMonth = date('m');
+        if($ActualMonth === 12) {
+            $nextMonth = '01';
+        } else {
+            $nextMonthInt = $ActualMonth + 1;
+            $nextMonth = strval($nextMonthInt);
+        }
+        setlocale (LC_TIME, 'fr_FR.utf8'); 
 
+        $fullDate = date('Y-'.$nextMonth.'-d');
+        $monthReturn = strftime("%B",strtotime($fullDate));
+
+        $listEvent = [];
+        $listEvent['selectedPeriod']['startDate'] = $monthReturn;
+
+        $listEvent['selectedRegion'] = array('id' => 45,
+                                            'name' => $regionSelect);
+        
+        foreach($liste as $plante => $data) {
+            //var_dump($data);exit;
+            $regionSemi = array_keys($data['debut_semi'], $nextMonth);
+            $regionPlant = array_keys($data['debut_plant'], $nextMonth);
+            $regionRecolte = array_keys($data['debut_recolte'], $nextMonth);
+
+            $arrayPlant = array('id' => $data['id'],
+                                'name' => $plante);
+
+            if($regionSemi) {
+                $listEvent['semis'][] = $arrayPlant;
+            }
+
+            if($regionPlant) {
+                $listEvent['plantation'][] = $arrayPlant;
+            }
+
+            if($regionRecolte) {
+                $listEvent['recolte'][] = $arrayPlant;
+            }
+        }
+        var_dump($listEvent);
+    }
+    
     public function activate()
     {
         $this->registerGardenerRole();
@@ -139,13 +246,13 @@ class Plugin
 
     public function api_meta()
     {
-
         register_rest_field(
             'plante',
             'periode_regions',
             array(
                 'get_callback' => [$this,'get_post_meta_for_api'],
                 'schema' => null,
+                'posts_per_page'=>-1 
             )
         );
     }
@@ -153,6 +260,7 @@ class Plugin
     public function get_post_meta_for_api($object)
     {
         $post_id = $object['id'];
+        
         
         return get_post_meta($post_id);
     }   
