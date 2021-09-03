@@ -6,23 +6,6 @@ use WP_Query;
 
 class Plugin
 {
-
-    const regions = [
-        'Auvergne-Rhône-Alpes'       => '_auvergne',
-        'Bourgogne-Franche-Comté'    => '_bourgogne',
-        'Bretagne'                   => '_bretagne',
-        'Centre-Val de Loire'        => '_centre',
-        'Corse'                      => '_corse',
-        'Grand Est'                  => '_est',
-        'Hauts-de-France'            => '_hauts',
-        'Île-de-France'              => '_ile',
-        'Normandie'                  => '_normandie',
-        'Nouvelle-Aquitaine'         => '_aquitaine',
-        'Occitanie'                  => '_occitanie',
-        'Pays de la Loire'           => '_loire',
-        'Provence-Alpes-Côte d’Azur' => '_azur',
-    ];
-
     /**
      * Constructeur de la classe Plugin
      * rajoute les hooks pour créer les taxo et CPT
