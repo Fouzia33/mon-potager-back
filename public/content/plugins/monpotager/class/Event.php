@@ -51,9 +51,10 @@ class Event
         );
     }
 
+    public function recoverAllDatas(WP_REST_Request $request)
+    {      
+        $idRegionSelected = $request->get_param('idRegionSelected');
 
-    public function recoverAllDatas()
-    {
         $args = array(
             'post_type' => 'plante',
             'posts_per_page'=> -1, 
@@ -61,28 +62,29 @@ class Event
     
         $post_query = new WP_Query($args); // Récupère la liste des posts 'plante'
 
+        //$regiontest = get_term_by('name', 'regions', 'post_tag');
+
         foreach ($post_query->posts as $post) {
 
             $planteId = $post->ID; // Stock l'id du post
             $planteTitle = $post->post_title; // Stock le titre du post
 
             $periodeMetaBox = get_post_meta($planteId); // Récupère les metabox (les periodes) du post
-            $termsRegions = wp_get_post_terms($planteId, 'regions');
-
-            $regionSelected = 4;
-
+            $termsRegions = get_terms( array( 
+                'taxonomy' => 'regions') );
+            
             foreach($termsRegions as $region) {
-                //var_dump($region);
-                if($region->term_id === $regionSelected) {
-                    $regionSelected = $region->slug;
-                    $idRegionSelected = $region->term_taxonomy_id;
+                if($region->term_id == $idRegionSelected) {
+                    $regionSelectedName = $region->name;
+                    $regionSelectedSlug = $region->slug;
+
                 }
             }
             //$regionSelected = 'Auvergne-Rhône-Alpes'; 
             
 
             foreach (self::regions as $region => $value) { // Boucle sur le tableau des régions
-                if ($region === $regionSelected) {
+                if ($region === $regionSelectedName) {
                     $debut_semi = $periodeMetaBox['debut_semi' . $value]; // Stocke la valeur des periodes
                     $debut_plant = $periodeMetaBox['debut_plant' . $value];
                     $debut_recolte = $periodeMetaBox['debut_recolte' . $value];
@@ -116,10 +118,10 @@ class Event
                     }
                 }
             }
-           // $listPeriodeRegions[$planteTitle]['selectedRegion']['id'] = $idRegionSelected;
-            $listPeriodeRegions[$planteTitle]['selectedRegion']['name'] = $regionSelected;
+            //$listPeriodeRegions[$planteTitle]['selectedRegion']['name'] = $regionSelectedSlug;
+            //var_dump($listPeriodeRegions);exit;
         }
-        //var_dump($listPeriodeRegions);exit;
+    
         $ActualMonth = date('m');
         if($ActualMonth === 12) {
             $nextMonth = '01';
@@ -133,17 +135,11 @@ class Event
         $monthReturn = strftime("%B",strtotime($fullDate));
 
         $listEvent = [];
+
+        $listEvent['selectedRegion'] = array('id' => $idRegionSelected,
+                                            'name' => $regionSelectedSlug);
+
         $listEvent['selectedPeriod']['startDate'] = $monthReturn;
-        //var_dump('test');
-
-        // for($i=0; $i <1; $i++) {
-        //     var_dump($liste);exit;
-        //     $selectedRegion = $liste[$i];
-        //     var_dump($selectedRegion);exit;
-        // }
-
-        $listEvent['selectedRegion'] = array('id' => 45,
-                                            'name' => $regionSelected);
         
         foreach($listPeriodeRegions as $plante => $data) {
             $regionSemi = array_keys($data['debut_semi'], $nextMonth);
@@ -165,11 +161,8 @@ class Event
                 $listEvent['recolte'][] = $arrayPlant;
             }
         }
-
-        //$test = json_encode($listEvent);
-       return $listEvent;
-        
-        
+        return $listEvent;
+       
     }
 
    
