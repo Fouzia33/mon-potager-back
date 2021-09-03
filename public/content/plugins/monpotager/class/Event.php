@@ -46,7 +46,7 @@ class Event
             'monpotager/v1', // name of an API
             '/event', // the endpoint that will be put after the name of the api
             [
-                'methods' => 'get', // the method used
+                'methods' => 'post', // the method used
                 'callback' => [$this, 'recoverAllDatas']
             ]
         );
