@@ -32,7 +32,6 @@ class Event
     {
         // registration of our custom api
         add_action('rest_api_init', [$this, 'initialize']);
-
     }
 
 
