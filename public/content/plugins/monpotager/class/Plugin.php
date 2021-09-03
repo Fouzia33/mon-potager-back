@@ -1,8 +1,6 @@
 <?php
 
 namespace monPotager;
-use monPotager\GardenerPlantationl;
-use WP_Query;
 
 class Plugin
 {
@@ -14,7 +12,6 @@ class Plugin
     {
         $metaPeriod = new MetaPeriod();
         $userPlanting = new User_planting;
-        $event = new Event();
 
         add_action('init', [$this, 'createPlanteCPT']);
 
