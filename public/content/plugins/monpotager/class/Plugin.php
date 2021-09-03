@@ -225,6 +225,7 @@ class Plugin
                 'editor',
                 'excerpt'
             ],
+            
         ]);
     }
 
