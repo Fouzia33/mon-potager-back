@@ -12,6 +12,7 @@ class Plugin
     {
         $metaPeriod = new MetaPeriod();
         $userPlanting = new User_planting;
+        $event = new Event();
 
         add_action('init', [$this, 'createPlanteCPT']);
 
