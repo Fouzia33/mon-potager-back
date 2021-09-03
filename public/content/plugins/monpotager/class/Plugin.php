@@ -1,8 +1,6 @@
 <?php
 
 namespace monPotager;
-use monPotager\GardenerPlantationl;
-use WP_Query;
 
 class Plugin
 {
