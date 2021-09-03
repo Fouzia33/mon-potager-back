@@ -70,10 +70,13 @@ class Plugin
             $regionSelected = 4;
 
             foreach($termsRegions as $region) {
+                //var_dump($region);
                 if($region->term_id === $regionSelected) {
                     $regionSelected = $region->slug;
+                    $idRegionSelected = $region->term_taxonomy_id;
                 }
             }
+            $regionSelected = 'Auvergne-Rhône-Alpes'; 
             
 
             foreach (self::regions as $region => $value) { // Boucle sur le tableau des régions
@@ -86,7 +89,12 @@ class Plugin
                     $plantations = substr($debut_plant[0], 5, 2);
                     $recoltes = substr($debut_recolte[0], 5, 2);
 
-                    //$listPeriodeRegions[$planteTitle]['re']
+                    if(isset($regionSelected) || isset($idRegionSelected)) {
+                        //return 'Error: Aucune région séléctionnée pour la plante';
+                    }
+
+                    $listPeriodeRegions[$planteTitle]['id'] = $planteId; // Place l'id de la plante dans le tableau
+
                     if ($semis !== false) {
                         $listPeriodeRegions[$planteTitle]['debut_semi'][$region] = $semis; // Stock la donnée dans un tableau
                     } else {
@@ -106,12 +114,14 @@ class Plugin
                     }
                 }
             }
+            $listPeriodeRegions[$planteTitle]['selectedRegion']['id'] = $idRegionSelected;
+            $listPeriodeRegions[$planteTitle]['selectedRegion']['name'] = $regionSelected;
         }
-        var_dump($listPeriodeRegions);exit;
-        $this->sendEvent($listPeriodeRegions, $regionSelect); // Renvoie le tableau complet, et la région séléctionnée
+        //var_dump($listPeriodeRegions);exit;
+        $this->sendEvent($listPeriodeRegions, $regionSelected); // Renvoie le tableau complet, et la région séléctionnée
     }
 
-    public function sendEvent($liste, $regionSelect)
+    public function sendEvent($liste, $regionSelected)
     {
         $ActualMonth = date('m');
         if($ActualMonth === 12) {
@@ -127,12 +137,18 @@ class Plugin
 
         $listEvent = [];
         $listEvent['selectedPeriod']['startDate'] = $monthReturn;
+        //var_dump('test');
+
+        // for($i=0; $i <1; $i++) {
+        //     var_dump($liste);exit;
+        //     $selectedRegion = $liste[$i];
+        //     var_dump($selectedRegion);exit;
+        // }
 
         $listEvent['selectedRegion'] = array('id' => 45,
-                                            'name' => $regionSelect);
+                                            'name' => $regionSelected);
         
         foreach($liste as $plante => $data) {
-
             $regionSemi = array_keys($data['debut_semi'], $nextMonth);
             $regionPlant = array_keys($data['debut_plant'], $nextMonth);
             $regionRecolte = array_keys($data['debut_recolte'], $nextMonth);
@@ -152,7 +168,7 @@ class Plugin
                 $listEvent['recolte'][] = $arrayPlant;
             }
         }
-        var_dump($listEvent);
+        //var_dump($listEvent);
     }
     
     public function activate()
