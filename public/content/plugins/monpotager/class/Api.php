@@ -67,7 +67,7 @@ class Api
             'monpotager/v1',
             '/plantation-select', 
             [
-                'methods' => 'post',
+                'methods' => 'get', //!! Route en get pour test //
                 'callback' => [$this, 'plantationSelect']
             ]
         );
@@ -95,43 +95,43 @@ class Api
     public function userUpdate(WP_REST_Request $request)
     {
         global $wpdb;
-
-        //$user = wp_get_current_user();
-        $user_id = $request->get_param('id_user');
     
         $password = $request->get_param('password');
         $username = $request->get_param('username');
         $email = $request->get_param('email');
         $region = $request->get_param('region');
 
+        $user = wp_get_current_user();
+        $id_user = $user->id;
+
 
         if(isset($username)) {
             $wpdb->update(
                 $wpdb->users, 
                 ['user_login' => $username],
-                ['ID' => $user_id]
+                ['ID' => $id_user]
                 );       
                 
             wp_update_user(array(
-                'ID' => $user_id,
+                'ID' => $id_user,
                 'user_nicename' => $username,
                 'display_name' => $username
                 ));
         }
 
         if(isset($password)) {
-            wp_set_password($password, $user_id);
+            wp_set_password($password, $id_user);
         }
 
         if(isset($email)) {
             wp_update_user(array(
-                'ID' => $user_id,
+                'ID' => $id_user,
                 'user_email' => $email,
                 ));
         }       
 
         if(isset($region)) {
-            update_user_meta($user_id, 'region', $region);
+            update_user_meta($id_user, 'region', $region);
         }
 
         return 'sucess';
@@ -154,86 +154,80 @@ class Api
     }
 
 
-    public function plantationSelect(WP_REST_Request $request)
+    public function plantationSelect() //! Route en get pour test //
     {
-        $id_user = $request->get_param('id_user');
+        $user = wp_get_current_user();
+        $id_user = $user->id;
 
-        // $user = wp_get_current_user();
-        // $id_user = $user->id;
-
-        //if (in_array('gardener', (array) $user->roles)) {
-
-        $gardenerPlantation = new GardenerPlantation();
-        $result = $gardenerPlantation->getPlantationsByUserId($id_user);
+        if (in_array('gardener', (array) $user->roles)) {
+            $gardenerPlantation = new GardenerPlantation();
+            $result = $gardenerPlantation->getPlantationsByUserId($id_user);
     
-        return [
+            return [
             'status'     => 'sucess',
             'id_user'    => $id_user,
             'plantations' => $result
-        ];
+            ];
+        }
     }
 
     public function plantationUpdate(WP_REST_Request $request)
     {
         $id_plantation = $request->get_param('id_plantation');
-        $id_user = $request->get_param('id_user');
         $status = $request->get_param('status');
         $id_plante = $request->get_param('id_plante');
 
-        // $user = wp_get_current_user();
-        // $id_user = $user->id;
+        $user = wp_get_current_user();
+        $id_user = $user->id;
 
-        //if (in_array('gardener', (array) $user->roles)) {
-        
-        $gardenerPlantation = new GardenerPlantation();
+        if (in_array('gardener', (array) $user->roles)) {
+            $gardenerPlantation = new GardenerPlantation();
 
-        if(isset($status) && isset($id_plante)) {
-            $gardenerPlantation->update($id_user, $id_plantation, $id_plante, $status);
+            if (isset($status) && isset($id_plante)) {
+                $gardenerPlantation->update($id_user, $id_plantation, $id_plante, $status);
+            } elseif (isset($id_plante) && $status === null) {
+                $gardenerPlantation->update($id_user, $id_plantation, $id_plante);
+            } else {
+                $gardenerPlantation->update($id_user, $id_plantation, $status);
+            }
 
-        } else if(isset($id_plante) && $status === null)  {
-            $gardenerPlantation->update($id_user, $id_plantation, $id_plante);
-        } else {
-            $gardenerPlantation->update($id_user, $id_plantation, $status);
-        }
-
-        return [
+            return [
             'status requête'=> 'sucess',
             'id_user'       => $id_user,
-            'id_plantation' => $id_plantation, 
+            'id_plantation' => $id_plantation,
             'id_plante'     => $id_plante,
 
             'status'        => $status
         ];
+        }
     }
 
     public function plantationDelete(WP_REST_Request $request)
     {
         $id_plantation = $request->get_param('id_plantation');
-        $id_user = $request->get_param('id_user');
 
-        // $user = wp_get_current_user();
-        // $id_user = $user->id;
+        $user = wp_get_current_user();
+        $id_user = $user->id;
 
-        //if (in_array('gardener', (array) $user->roles)) {
-        
-        $gardenerPlantation = new GardenerPlantation();
-        $gardenerPlantation->delete($id_user, $id_plantation);
+        if (in_array('gardener', (array) $user->roles)) {
+            $gardenerPlantation = new GardenerPlantation();
+            $gardenerPlantation->delete($id_user, $id_plantation);
 
-        return [
+            return [
             'status'        => 'sucess',
             'id_user'       => $id_user,
             'id_plantation' => $id_plantation
-        ];
+            ];
+        }
     }
 
     public function plantationSave(WP_REST_Request $request) {
         $id_plante = $request->get_param('id_plante');
-        $id_user = $request->get_param('id_user');
 
-        // $user = wp_get_current_user();
-        // $id_user = $user->id;
+        $user = wp_get_current_user();
+        $id_user = $user->id;
 
-        //if (in_array('gardener', (array) $user->roles)) {
+        if (in_array('gardener', (array) $user->roles)) {
             $gardenerPlantation = new GardenerPlantation();
             $gardenerPlantation->insert($id_user, $id_plante);
 
@@ -242,11 +236,11 @@ class Api
                 'id_user'   => $id_user,
                 'id_plante' => $id_plante, 
             ];
-        //} else  {
-            //  return [
-            //      'status' => 'failed',
-            // ];
-        //}
+        } else  {
+             return [
+                 'status' => 'failed',
+            ];
+        }
     }
 
     public function inscription(WP_REST_Request $request)
