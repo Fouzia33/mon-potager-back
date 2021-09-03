@@ -75,7 +75,7 @@ class Event
                 'taxonomy' => 'regions') );
             
             foreach($termsRegions as $region) {
-                if($region->term_id === $idRegionSelected) {
+                if($region->term_id == $idRegionSelected) {
                     $regionSelectedName = $region->name;
                     $regionSelectedSlug = $region->slug;
 
@@ -119,8 +119,8 @@ class Event
                     }
                 }
             }
-           // $listPeriodeRegions[$planteTitle]['selectedRegion']['id'] = $idRegionSelected;
-            $listPeriodeRegions[$planteTitle]['selectedRegion']['name'] = $regionSelected;
+            //$listPeriodeRegions[$planteTitle]['selectedRegion']['name'] = $regionSelectedSlug;
+            //var_dump($listPeriodeRegions);exit;
         }
     
         $ActualMonth = date('m');
@@ -136,17 +136,11 @@ class Event
         $monthReturn = strftime("%B",strtotime($fullDate));
 
         $listEvent = [];
-        $listEvent['selectedPeriod']['startDate'] = $monthReturn;
-        //var_dump('test');
-
-        // for($i=0; $i <1; $i++) {
-        //     var_dump($liste);exit;
-        //     $selectedRegion = $liste[$i];
-        //     var_dump($selectedRegion);exit;
-        // }
 
         $listEvent['selectedRegion'] = array('id' => $idRegionSelected,
-                                            'name' => $regionSelected);
+                                            'name' => $regionSelectedSlug);
+
+        $listEvent['selectedPeriod']['startDate'] = $monthReturn;
         
         foreach($listPeriodeRegions as $plante => $data) {
             $regionSemi = array_keys($data['debut_semi'], $nextMonth);

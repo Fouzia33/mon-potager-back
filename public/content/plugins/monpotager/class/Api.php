@@ -143,7 +143,6 @@ class Api
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
         $id_user = $request->get_param('id_user');
-        //var_dump($id_user);exit;
 
          if( wp_delete_user($id_user))
          {
