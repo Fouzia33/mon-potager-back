@@ -107,16 +107,16 @@ class Event
         }
 
         foreach($liste as $plante => $data) {
-            var_dump($data);
+            //var_dump($data);
             $regionSemi = array_keys($data['debut_semi'], $nextMonth);
             $regionPlant = array_keys($data['debut_plant'], $nextMonth);
             $regionRecolte = array_keys($data['debut_recolte'], $nextMonth);
 
 
-            var_dump($region);
+            //var_dump($region);
         }
 
-        //var_dump($liste);
+        var_dump($liste);
     }
 
 

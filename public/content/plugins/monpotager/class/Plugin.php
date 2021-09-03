@@ -57,40 +57,38 @@ class Plugin
             'posts_per_page'=> -1, 
         );
     
-        $post_query = new WP_Query($args);
+        $post_query = new WP_Query($args); // Récupère la liste des posts 'plante'
 
         foreach ($post_query->posts as $post) {
 
-            $planteId = $post->ID;
-            $planteTitle = $post->post_title;
+            $planteId = $post->ID; // Stock l'id du post
+            $planteTitle = $post->post_title; // Stock le titre du post
 
-            $periodeMetaBox = get_post_meta($planteId);
+            $periodeMetaBox = get_post_meta($planteId); // Récupère les metabox (les periodes) du post
+            $termsRegions = wp_get_post_terms($planteId, 'regions');
 
-            $regionSelect = 'Auvergne-Rhône-Alpes';
-            $regionSelect_id = 5;
-            $termsRegions = wp_get_post_terms($planteId, 'regions'); 
-            //var_dump($termsRegions);exit;
+            $regionSelected = 4;
+
             foreach($termsRegions as $region) {
-                if($region->id === $regionSelect_id) {
-                    //!! TODOOOOOOO
-
+                if($region->term_id === $regionSelected) {
+                    $regionSelected = $region->slug;
                 }
             }
+            
 
-            foreach (self::regions as $region => $value) {
-                if ($region === $regionSelect) {
-                    $debut_semi = $periodeMetaBox['debut_semi' . $value];
+            foreach (self::regions as $region => $value) { // Boucle sur le tableau des régions
+                if ($region === $regionSelected) {
+                    $debut_semi = $periodeMetaBox['debut_semi' . $value]; // Stocke la valeur des periodes
                     $debut_plant = $periodeMetaBox['debut_plant' . $value];
                     $debut_recolte = $periodeMetaBox['debut_recolte' . $value];
 
-                    $semis = substr($debut_semi[0], 5, 2);
+                    $semis = substr($debut_semi[0], 5, 2); // Filtre pour ne garder que le mois
                     $plantations = substr($debut_plant[0], 5, 2);
                     $recoltes = substr($debut_recolte[0], 5, 2);
 
-                    $listPeriodeRegions[$planteTitle]['id'] = $planteId; // Place l'id de la plante dans le tableau
-
+                    //$listPeriodeRegions[$planteTitle]['re']
                     if ($semis !== false) {
-                        $listPeriodeRegions[$planteTitle]['debut_semi'][$region] = $semis;
+                        $listPeriodeRegions[$planteTitle]['debut_semi'][$region] = $semis; // Stock la donnée dans un tableau
                     } else {
                         $listPeriodeRegions[$planteTitle]['debut_semi'][$region] = null;
                     }
@@ -109,7 +107,8 @@ class Plugin
                 }
             }
         }
-        $this->sendEvent($listPeriodeRegions, $regionSelect);
+        var_dump($listPeriodeRegions);exit;
+        $this->sendEvent($listPeriodeRegions, $regionSelect); // Renvoie le tableau complet, et la région séléctionnée
     }
 
     public function sendEvent($liste, $regionSelect)
@@ -119,7 +118,7 @@ class Plugin
             $nextMonth = '01';
         } else {
             $nextMonthInt = $ActualMonth + 1;
-            $nextMonth = strval($nextMonthInt);
+            $nextMonth = strval($nextMonthInt);  // INT --> String
         }
         setlocale (LC_TIME, 'fr_FR.utf8'); 
 
@@ -133,13 +132,13 @@ class Plugin
                                             'name' => $regionSelect);
         
         foreach($liste as $plante => $data) {
-            //var_dump($data);exit;
+
             $regionSemi = array_keys($data['debut_semi'], $nextMonth);
             $regionPlant = array_keys($data['debut_plant'], $nextMonth);
             $regionRecolte = array_keys($data['debut_recolte'], $nextMonth);
 
             $arrayPlant = array('id' => $data['id'],
-                                'name' => $plante);
+                               'name' => $plante);
 
             if($regionSemi) {
                 $listEvent['semis'][] = $arrayPlant;
