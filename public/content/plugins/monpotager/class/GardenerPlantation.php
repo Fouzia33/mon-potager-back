@@ -124,43 +124,15 @@ class GardenerPlantation
             [
                 $id_user
             ]
-            );
+        );
 
 
         $results = [];
 
-        foreach($rows as $values){
+        foreach ($rows as $values) {
             $results[] =  $values;
         }
-
+        //var_dump($results);exit;
         return $results;
-
-    }
-
-    public function getAllPlantations($id_user)
-    {
-        $sql = "
-            SELECT 
-                *
-            FROM `gardener_plantation`
-            WHERE
-                `id_user` = %d
-        ";
-
-        $rows = $this->executePreparedStatement(
-            $sql,
-            [
-                $id_user
-            ]
-            );
-
-        $results = [];
-
-        foreach($rows as $values){
-            $results[] =  $values;
-        }
-
-        return $results;
-
     }
 }
