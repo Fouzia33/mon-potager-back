@@ -28,7 +28,7 @@ class Plugin
         add_action('add_meta_boxes', [$userPlanting, 'user_Metaboxes_Planting']);
         add_action('save_post', [$userPlanting, 'saveUserMetaboxesDaysPlantation']);
 
-        //add_action('save_post', [$this, 'recoverAllDatas']);   
+        add_action('rest_api_init', [$event, 'initialize']);
     }
     
     public function activate()

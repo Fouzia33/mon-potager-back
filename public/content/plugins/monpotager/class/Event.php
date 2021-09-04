@@ -28,14 +28,6 @@ class Event
      */
     protected $baseURI;
 
-    public function __construct()
-    {
-        // registration of our custom api
-        add_action('rest_api_init', [$this, 'initialize']);
-
-    }
-
-
     public function initialize()
     {
         // retrieve a folder name from a file path
