@@ -129,7 +129,9 @@ class Event
             $nextMonthInt = $ActualMonth + 1;
             $nextMonth = strval($nextMonthInt);  // INT --> String
         }
-        setlocale (LC_TIME, 'fr_FR.utf8'); 
+        
+        setlocale(LC_TIME, "");
+        setlocale (LC_TIME, 'fr_FR.utf8', 'fra'); 
 
         $fullDate = date('Y-'.$nextMonth.'-d');
         $monthReturn = strftime("%B",strtotime($fullDate));
