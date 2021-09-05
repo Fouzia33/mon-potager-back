@@ -230,15 +230,15 @@ class Api
         $bgColor = $request->get_param('bgColor');
         $dragBgColor = $request->get_param('dragBgColor');
         $borderColor = $request->get_param('borderColor');
-        $status = $request->get_param('status');
+        
         
 
         $user = wp_get_current_user();
-        $id_user = $request->get_param('id_user');
+        $id_user = 5;
 
        
             $gardenerPlantation = new GardenerPlantation();
-            $gardenerPlantation->insert($id_user, $id_plante, $status, $calendarId, $title, $start, $end, $category, $color, $bgColor, $dragBgColor, $borderColor);
+            $gardenerPlantation->insert($id_user, $id_plante, $calendarId, $title, $start, $end, $category, $color, $bgColor, $dragBgColor, $borderColor);
 
             return [
                 'status'    => 'sucess',
