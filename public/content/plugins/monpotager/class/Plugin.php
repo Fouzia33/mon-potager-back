@@ -188,7 +188,7 @@ class Plugin
         remove_role('gardener');
 
         $gardenerplant = new GardenerPlantation;
-        //$gardenerplant->dropTable();
+        $gardenerplant->dropTable();
     }
 
     public function registerGardenerRole()

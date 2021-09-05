@@ -31,16 +31,25 @@ class GardenerPlantation
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
         //$sql = "SELECT * FROM `gardener_plantation`";
-        $ifExist = $this->database->query( "
-        SELECT * FROM `gardener_plantation`");
+        //$ifExist = $this->database->query( "
+        //SELECT * FROM `gardener_plantation`");
 
-        if ($ifExist != false) {
+        
             $sql = "
         CREATE TABLE `gardener_plantation` (
             `id_plantation` bigint(24) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
             `id_user` bigint(24) unsigned NOT NULL,
             `id_plante` bigint(24) unsigned NOT NULL,
             `status` tinyint(24) unsigned NOT NULL,
+            `calendarId` VARCHAR(32) NOT NULL,
+            `title` VARCHAR(32) NOT NULL,
+            `start` VARCHAR(32) NOT NULL,
+            `end` VARCHAR(32) NOT NULL,
+            `category` VARCHAR(32) NOT NULL,
+            `color` VARCHAR(32) NOT NULL,
+            `bgColor` VARCHAR(32) NOT NULL,
+            `dragBgColor` VARCHAR(32) NOT NULL,
+            `borderColor` VARCHAR(32) NOT NULL,
             `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
             `updated_at` datetime NULL
         );
@@ -48,7 +57,7 @@ class GardenerPlantation
 
             // STEP WP CUSTOMTABLE execution de la requête de création de la table
             dbDelta($sql);
-        }
+        
     }
 
     public function dropTable()
@@ -60,13 +69,22 @@ class GardenerPlantation
         $this->database->query($sql);
     }
 
-    public function insert($id_user, $id_plante, $status = 1)
+    public function insert($id_user, $id_plante, $status = 1, $calendarId, $title, $start, $end, $category, $color, $bgColor , $dragBgColor,$borderColor)
     {
         // le tableau data stocke les données à insérer dans la table
         $data = [
             'id_user' => $id_user,
             'id_plante' => $id_plante,
             'status' => $status,
+            'calendarId' =>$calendarId,
+            'title '=> $title,
+            'start' => $start,
+            'end' => $end,
+            'category' => $category,
+            'color' => $color,
+            'bgColor' => $bgColor,
+            'dragBgColor' => $dragBgColor,
+            'borderColor' => $borderColor,
             'created_at' => date('Y-m-d H:i:s')
         ];
 

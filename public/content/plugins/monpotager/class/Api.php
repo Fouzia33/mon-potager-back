@@ -38,7 +38,7 @@ class Api
 
         register_rest_route(
             'monpotager/v1',
-            '/plantation-save', 
+            '/plantation-save',
             [
                 'methods' => 'post',
                 'callback' => [$this, 'plantationSave']
@@ -47,7 +47,7 @@ class Api
 
         register_rest_route(
             'monpotager/v1',
-            '/plantation-delete', 
+            '/plantation-delete',
             [
                 'methods' => 'post',
                 'callback' => [$this, 'plantationDelete']
@@ -56,7 +56,7 @@ class Api
 
         register_rest_route(
             'monpotager/v1',
-            '/plantation-update', 
+            '/plantation-update',
             [
                 'methods' => 'post',
                 'callback' => [$this, 'plantationUpdate']
@@ -65,7 +65,7 @@ class Api
 
         register_rest_route(
             'monpotager/v1',
-            '/plantation-select', 
+            '/plantation-select',
             [
                 'methods' => 'get', //!! Route en get pour test //
                 'callback' => [$this, 'plantationSelect']
@@ -74,7 +74,7 @@ class Api
 
         register_rest_route(
             'monpotager/v1',
-            '/user-delete', 
+            '/user-delete',
             [
                 'methods' => 'post',
                 'callback' => [$this, 'userDelete']
@@ -83,19 +83,18 @@ class Api
 
         register_rest_route(
             'monpotager/v1',
-            '/user-update', 
+            '/user-update',
             [
                 'methods' => 'post',
                 'callback' => [$this, 'userUpdate']
             ]
         );
-
     }
 
     public function userUpdate(WP_REST_Request $request)
     {
         global $wpdb;
-    
+
         $password = $request->get_param('password');
         $username = $request->get_param('username');
         $email = $request->get_param('email');
@@ -105,32 +104,32 @@ class Api
         $id_user = $user->id;
 
 
-        if(isset($username)) {
+        if (isset($username)) {
             $wpdb->update(
-                $wpdb->users, 
+                $wpdb->users,
                 ['user_login' => $username],
                 ['ID' => $id_user]
-                );       
-                
+            );
+
             wp_update_user(array(
                 'ID' => $id_user,
                 'user_nicename' => $username,
                 'display_name' => $username
-                ));
+            ));
         }
 
-        if(isset($password)) {
+        if (isset($password)) {
             wp_set_password($password, $id_user);
         }
 
-        if(isset($email)) {
+        if (isset($email)) {
             wp_update_user(array(
                 'ID' => $id_user,
                 'user_email' => $email,
-                ));
-        }       
+            ));
+        }
 
-        if(isset($region)) {
+        if (isset($region)) {
             update_user_meta($id_user, 'region', $region);
         }
 
@@ -140,16 +139,15 @@ class Api
 
     public function userDelete(WP_REST_Request $request)
     {
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
         $id_user = $request->get_param('id_user');
 
-         if( wp_delete_user($id_user))
-         {
-            return 'succes'; 
-         } else {
+        if (wp_delete_user($id_user)) {
+            return 'succes';
+        } else {
             return 'user not found';
-         }
+        }
     }
 
 
@@ -161,11 +159,11 @@ class Api
         if (in_array('gardener', (array) $user->roles)) {
             $gardenerPlantation = new GardenerPlantation();
             $result = $gardenerPlantation->getPlantationsByUserId($id_user);
-    
+
             return [
-            'status'     => 'sucess',
-            'id_user'    => $id_user,
-            'plantations' => $result
+                'status'     => 'sucess',
+                'id_user'    => $id_user,
+                'plantations' => $result
             ];
         }
     }
@@ -191,13 +189,13 @@ class Api
             }
 
             return [
-            'status requête'=> 'sucess',
-            'id_user'       => $id_user,
-            'id_plantation' => $id_plantation,
-            'id_plante'     => $id_plante,
+                'status requête' => 'sucess',
+                'id_user'       => $id_user,
+                'id_plantation' => $id_plantation,
+                'id_plante'     => $id_plante,
 
-            'status'        => $status
-        ];
+                'status'        => $status
+            ];
         }
     }
 
@@ -213,33 +211,51 @@ class Api
             $gardenerPlantation->delete($id_user, $id_plantation);
 
             return [
-            'status'        => 'sucess',
-            'id_user'       => $id_user,
-            'id_plantation' => $id_plantation
+                'status'        => 'sucess',
+                'id_user'       => $id_user,
+                'id_plantation' => $id_plantation
             ];
         }
     }
 
-    public function plantationSave(WP_REST_Request $request) {
+    public function plantationSave(WP_REST_Request $request)
+    {
         $id_plante = $request->get_param('id_plante');
+        $calendarId = $request->get_param('calendarId');
+        $title = $request->get_param('title');
+        $start = $request->get_param('start');
+        $end = $request->get_param('end');
+        $category = $request->get_param('category');
+        $color = $request->get_param('color');
+        $bgColor = $request->get_param('bgColor');
+        $dragBgColor = $request->get_param('dragBgColor');
+        $borderColor = $request->get_param('borderColor');
+        $status = $request->get_param('status');
+        
 
         $user = wp_get_current_user();
-        $id_user = $user->id;
+        $id_user = $request->get_param('id_user');
 
-        if (in_array('gardener', (array) $user->roles)) {
+       
             $gardenerPlantation = new GardenerPlantation();
-            $gardenerPlantation->insert($id_user, $id_plante);
+            $gardenerPlantation->insert($id_user, $id_plante, $status, $calendarId, $title, $start, $end, $category, $color, $bgColor, $dragBgColor, $borderColor);
 
             return [
                 'status'    => 'sucess',
                 'id_user'   => $id_user,
-                'id_plante' => $id_plante, 
+                'id_plante' => $id_plante,
+                'calendarId' => $calendarId,
+                'title ' => $title,
+                'start' => $start,
+                'end' => $end,
+                'category' => $category,
+                'color' => $color,
+                'bgColor' => $bgColor,
+                'dragBgColor' => $dragBgColor,
+                'borderColor' => $borderColor
             ];
-        } else  {
-             return [
-                 'status' => 'failed',
-            ];
-        }
+       
+        
     }
 
     public function inscription(WP_REST_Request $request)
@@ -276,10 +292,9 @@ class Api
                 'region'    => $region,
                 'role'      => 'gardener'
             ];
-            
         } else {  // if the user was not created, the error occurred
             return [
-                'success'=> false,
+                'success' => false,
                 'error' => $userCreateResult
             ];
         }
@@ -291,7 +306,7 @@ class Api
             'user',
             'region',
             array(
-                'get_callback' => [$this,'get_user_meta_for_api'],
+                'get_callback' => [$this, 'get_user_meta_for_api'],
                 'schema' => null,
             )
         );
@@ -301,7 +316,7 @@ class Api
     {
         $user_id = $object['id'];
         //var_dump(get_post_meta($post_id));die;
-        
-        return get_user_meta( $user_id, 'region', true);
-    }   
+
+        return get_user_meta($user_id, 'region', true);
+    }
 }
