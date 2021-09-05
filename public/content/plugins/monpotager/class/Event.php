@@ -72,9 +72,7 @@ class Event
                     $regionSelectedSlug = $region->slug;
 
                 }
-            }
-            //$regionSelected = 'Auvergne-Rhône-Alpes'; 
-            
+            }            
 
             foreach (self::regions as $region => $value) { // Boucle sur le tableau des régions
                 if ($region === $regionSelectedName) {
