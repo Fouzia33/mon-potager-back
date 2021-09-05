@@ -34,21 +34,30 @@ class GardenerPlantation
         $ifExist = $this->database->query( "
         SELECT * FROM `gardener_plantation`");
 
-        if ($ifExist != false) {
+        //if ($ifExist != false) {
             $sql = "
-        CREATE TABLE `gardener_plantation` (
-            `id_plantation` bigint(24) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            `id_user` bigint(24) unsigned NOT NULL,
-            `id_plante` bigint(24) unsigned NOT NULL,
-            `status` tinyint(24) unsigned NOT NULL,
-            `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-            `updated_at` datetime NULL
-        );
+            CREATE TABLE `gardener_plantation` (
+                `id_plantation` bigint(24) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `id_user` bigint(24) unsigned NOT NULL,
+                `id_plante` bigint(24) unsigned NOT NULL,
+                `status` tinyint(24) unsigned NOT NULL,
+                `calendarId` tinyint(24) unsigned NOT NULL,
+                `title` varchar(30) COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+                `start` varchar(30) COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+                `end` varchar(30) COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+                `category` varchar(30) COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+                `color` varchar(30) COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+                `bgColor` varchar(30) COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+                `dragBgColor` varchar(30) COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+                `borderColor` varchar(30) COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+    
+                `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+                `updated_at` datetime NULL);
         ";
 
             // STEP WP CUSTOMTABLE execution de la requête de création de la table
             dbDelta($sql);
-        }
+       // }
     }
 
     public function dropTable()
@@ -60,13 +69,23 @@ class GardenerPlantation
         $this->database->query($sql);
     }
 
-    public function insert($id_user, $id_plante, $status = 1)
-    {
+    public function insert($id_user, $id_plante, $calendarId, $title, $start, $end, $category, $color, $bgColor, $dragBgColor, $borderColor)
+    {   $status = 1;
         // le tableau data stocke les données à insérer dans la table
         $data = [
             'id_user' => $id_user,
             'id_plante' => $id_plante,
             'status' => $status,
+            'calendarId' => $calendarId,
+            'title' => $title,
+            'start' => $start,
+            'end' => $end,
+            'category' => $category,
+            'color' => $color,
+            'bgColor' => $bgColor,
+            'dragBgColor' => $dragBgColor,
+            'borderColor' => $borderColor,
+
             'created_at' => date('Y-m-d H:i:s')
         ];
 

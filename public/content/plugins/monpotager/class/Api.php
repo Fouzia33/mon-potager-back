@@ -222,18 +222,38 @@ class Api
 
     public function plantationSave(WP_REST_Request $request) {
         $id_plante = $request->get_param('id_plante');
+        $calendarId = $request->get_param('calendarId');
+        $title = $request->get_param('title');
+        $start = $request->get_param('start');
+        $end = $request->get_param('end');
+        $category = $request->get_param('category');
+        $color = $request->get_param('color');
+        $bgColor = $request->get_param('bgColor');
+        $dragBgColor = $request->get_param('dragBgColor');
+        $borderColor = $request->get_param('dragBgColor');
 
         $user = wp_get_current_user();
         $id_user = $user->id;
 
         if (in_array('gardener', (array) $user->roles)) {
             $gardenerPlantation = new GardenerPlantation();
-            $gardenerPlantation->insert($id_user, $id_plante);
+            $gardenerPlantation->insert($id_user, $id_plante, $calendarId, $title, $start, $end, $category, $color, $bgColor, $dragBgColor, $borderColor);
 
             return [
                 'status'    => 'sucess',
                 'id_user'   => $id_user,
-                'id_plante' => $id_plante, 
+                'id_plante' => $id_plante,
+                'id_user' => $id_user,
+                'id_plante' => $id_plante,
+                'calendarId' => $calendarId,
+                'title' => $title,
+                'start' => $start,
+                'end' => $end,
+                'category' => $category,
+                'color' => $color,
+                'bgColor' => $bgColor,
+                'dragBgColor' => $dragBgColor,
+                'borderColor' => $borderColor,
             ];
         } else  {
              return [

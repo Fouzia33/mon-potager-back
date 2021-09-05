@@ -28,13 +28,6 @@ class Event
      */
     protected $baseURI;
 
-    public function __construct()
-    {
-        // registration of our custom api
-        add_action('rest_api_init', [$this, 'initialize']);
-    }
-
-
     public function initialize()
     {
         // retrieve a folder name from a file path
@@ -79,9 +72,7 @@ class Event
                     $regionSelectedSlug = $region->slug;
 
                 }
-            }
-            //$regionSelected = 'Auvergne-Rhône-Alpes'; 
-            
+            }            
 
             foreach (self::regions as $region => $value) { // Boucle sur le tableau des régions
                 if ($region === $regionSelectedName) {
