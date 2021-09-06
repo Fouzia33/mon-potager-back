@@ -193,9 +193,7 @@ class Api
 
             $result = $gardenerPlantation->update($id_user, $id_plante, $id_plantation, $calendarId, $title, $start, $end, $category, $color, $bgColor, $dragBgColor, $borderColor, $status);
 
-            return $result;
-            
-      
+            return $result; 
         }
     }
 
@@ -208,13 +206,9 @@ class Api
 
         if (in_array('gardener', (array) $user->roles)) {
             $gardenerPlantation = new GardenerPlantation();
-            $gardenerPlantation->delete($id_user, $id_plantation);
+            $result = $gardenerPlantation->delete($id_user, $id_plantation);
 
-            return [
-            'status'        => 'sucess',
-            'id_user'       => $id_user,
-            'id_plantation' => $id_plantation
-            ];
+            return $result;
         }
     }
 

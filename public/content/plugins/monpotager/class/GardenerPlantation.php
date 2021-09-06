@@ -106,6 +106,12 @@ class GardenerPlantation
             'gardener_plantation',
             $where
         );
+
+        return [
+            'status' => 'sucess',
+            'where'  => $where
+        ];
+        
     }
 
     public function update($id_user, $id_plante, $id_plantation, $calendarId, $title, $start, $end, $category, $color, $bgColor, $dragBgColor, $borderColor, $status = 1)
