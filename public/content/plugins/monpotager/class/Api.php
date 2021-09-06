@@ -26,16 +26,6 @@ class Api
         // retrieve a folder name from a file path 
         $this->baseURI = dirname($_SERVER['SCRIPT_NAME']);
 
-        // Create new API route
-        register_rest_route(
-            'monpotager/v1', // name of an API
-            '/inscription', // the endpoint that will be put after the name of the api
-            [
-                'methods' => 'post', // the method used
-                'callback' => [$this, 'inscription']
-            ]
-        );
-
         register_rest_route(
             'monpotager/v1',
             '/plantation-save', 
@@ -47,10 +37,10 @@ class Api
 
         register_rest_route(
             'monpotager/v1',
-            '/plantation-delete', 
+            '/plantation-select', 
             [
-                'methods' => 'post',
-                'callback' => [$this, 'plantationDelete']
+                'methods' => 'get',
+                'callback' => [$this, 'plantationSelect']
             ]
         );
 
@@ -65,19 +55,20 @@ class Api
 
         register_rest_route(
             'monpotager/v1',
-            '/plantation-select', 
+            '/plantation-delete', 
             [
-                'methods' => 'get', //!! Route en get pour test //
-                'callback' => [$this, 'plantationSelect']
+                'methods' => 'post',
+                'callback' => [$this, 'plantationDelete']
             ]
         );
 
+        // Create new API route
         register_rest_route(
-            'monpotager/v1',
-            '/user-delete', 
+            'monpotager/v1', // name of an API
+            '/inscription', // the endpoint that will be put after the name of the api
             [
-                'methods' => 'post',
-                'callback' => [$this, 'userDelete']
+                'methods' => 'post', // the method used
+                'callback' => [$this, 'inscription']
             ]
         );
 
@@ -90,70 +81,61 @@ class Api
             ]
         );
 
+        register_rest_route(
+            'monpotager/v1',
+            '/user-delete', 
+            [
+                'methods' => 'post',
+                'callback' => [$this, 'userDelete']
+            ]
+        );
     }
 
-    public function userUpdate(WP_REST_Request $request)
-    {
-        global $wpdb;
-    
-        $password = $request->get_param('password');
-        $username = $request->get_param('username');
-        $email = $request->get_param('email');
-        $region = $request->get_param('region');
+    //*****/ Plantation Utilisateur /*****//
+
+    public function plantationSave(WP_REST_Request $request) {
+        $id_plante = $request->get_param('id_plante');
+        $calendarId = $request->get_param('calendarId');
+        $title = $request->get_param('title');
+        $start = $request->get_param('start');
+        $end = $request->get_param('end');
+        $category = $request->get_param('category');
+        $color = $request->get_param('color');
+        $bgColor = $request->get_param('bgColor');
+        $dragBgColor = $request->get_param('dragBgColor');
+        $borderColor = $request->get_param('dragBgColor');
 
         $user = wp_get_current_user();
         $id_user = $user->id;
 
+        if (in_array('gardener', (array) $user->roles)) {
+            $gardenerPlantation = new GardenerPlantation();
+            $gardenerPlantation->insert($id_user, $id_plante, $calendarId, $title, $start, $end, $category, $color, $bgColor, $dragBgColor, $borderColor);
 
-        if(isset($username)) {
-            $wpdb->update(
-                $wpdb->users, 
-                ['user_login' => $username],
-                ['ID' => $id_user]
-                );       
-                
-            wp_update_user(array(
-                'ID' => $id_user,
-                'user_nicename' => $username,
-                'display_name' => $username
-                ));
+            return [
+                'status'    => 'sucess',
+                'id_user'   => $id_user,
+                'id_plante' => $id_plante,
+                'id_user' => $id_user,
+                'id_plante' => $id_plante,
+                'calendarId' => $calendarId,
+                'title' => $title,
+                'start' => $start,
+                'end' => $end,
+                'category' => $category,
+                'color' => $color,
+                'bgColor' => $bgColor,
+                'dragBgColor' => $dragBgColor,
+                'borderColor' => $borderColor,
+            ];
+        } else  {
+             return [
+                 'status' => 'failed',
+            ];
         }
-
-        if(isset($password)) {
-            wp_set_password($password, $id_user);
-        }
-
-        if(isset($email)) {
-            wp_update_user(array(
-                'ID' => $id_user,
-                'user_email' => $email,
-                ));
-        }       
-
-        if(isset($region)) {
-            update_user_meta($id_user, 'region', $region);
-        }
-
-        return 'sucess';
     }
 
-
-    public function userDelete(WP_REST_Request $request)
-    {
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
-        $id_user = $request->get_param('id_user');
-
-         if( wp_delete_user($id_user))
-         {
-            return 'succes'; 
-         } else {
-            return 'user not found';
-         }
-    }
-
-
-    public function plantationSelect() //! Route en get pour test //
+    public function plantationSelect()
     {
         $user = wp_get_current_user();
         $id_user = $user->id;
@@ -212,47 +194,7 @@ class Api
         }
     }
 
-    public function plantationSave(WP_REST_Request $request) {
-        $id_plante = $request->get_param('id_plante');
-        $calendarId = $request->get_param('calendarId');
-        $title = $request->get_param('title');
-        $start = $request->get_param('start');
-        $end = $request->get_param('end');
-        $category = $request->get_param('category');
-        $color = $request->get_param('color');
-        $bgColor = $request->get_param('bgColor');
-        $dragBgColor = $request->get_param('dragBgColor');
-        $borderColor = $request->get_param('dragBgColor');
-
-        $user = wp_get_current_user();
-        $id_user = $user->id;
-
-        if (in_array('gardener', (array) $user->roles)) {
-            $gardenerPlantation = new GardenerPlantation();
-            $gardenerPlantation->insert($id_user, $id_plante, $calendarId, $title, $start, $end, $category, $color, $bgColor, $dragBgColor, $borderColor);
-
-            return [
-                'status'    => 'sucess',
-                'id_user'   => $id_user,
-                'id_plante' => $id_plante,
-                'id_user' => $id_user,
-                'id_plante' => $id_plante,
-                'calendarId' => $calendarId,
-                'title' => $title,
-                'start' => $start,
-                'end' => $end,
-                'category' => $category,
-                'color' => $color,
-                'bgColor' => $bgColor,
-                'dragBgColor' => $dragBgColor,
-                'borderColor' => $borderColor,
-            ];
-        } else  {
-             return [
-                 'status' => 'failed',
-            ];
-        }
-    }
+    //*****/ Utilisateur /*****//
 
     public function inscription(WP_REST_Request $request)
     {
@@ -296,6 +238,66 @@ class Api
             ];
         }
     }
+
+    public function userUpdate(WP_REST_Request $request)
+    {
+        global $wpdb;
+    
+        $password = $request->get_param('password');
+        $username = $request->get_param('username');
+        $email = $request->get_param('email');
+        $region = $request->get_param('region');
+
+        $user = wp_get_current_user();
+        $id_user = $user->id;
+
+
+        if(isset($username)) {
+            $wpdb->update(
+                $wpdb->users, 
+                ['user_login' => $username],
+                ['ID' => $id_user]
+                );       
+                
+            wp_update_user(array(
+                'ID' => $id_user,
+                'user_nicename' => $username,
+                'display_name' => $username
+                ));
+        }
+
+        if(isset($password)) {
+            wp_set_password($password, $id_user);
+        }
+
+        if(isset($email)) {
+            wp_update_user(array(
+                'ID' => $id_user,
+                'user_email' => $email,
+                ));
+        }       
+
+        if(isset($region)) {
+            update_user_meta($id_user, 'region', $region);
+        }
+
+        return 'sucess';
+    }
+
+    public function userDelete(WP_REST_Request $request)
+    {
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+        $id_user = $request->get_param('id_user');
+
+         if(wp_delete_user($id_user))
+         {
+            return 'succes'; 
+         } else {
+            return 'user not found';
+         }
+    }
+
 
     public function api_meta()
     {

@@ -30,11 +30,6 @@ class GardenerPlantation
     {
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-        //$sql = "SELECT * FROM `gardener_plantation`";
-        $ifExist = $this->database->query( "
-        SELECT * FROM `gardener_plantation`");
-
-        //if ($ifExist != false) {
             $sql = "
             CREATE TABLE `gardener_plantation` (
                 `id_plantation` bigint(24) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -57,7 +52,6 @@ class GardenerPlantation
 
             // STEP WP CUSTOMTABLE execution de la requête de création de la table
             dbDelta($sql);
-       // }
     }
 
     public function dropTable()
@@ -95,28 +89,34 @@ class GardenerPlantation
         );
     }
 
-    public function delete($id_user, $id_plantation)
+    public function getPlantationsByUserId($id_user)
     {
-        $where = [
-            "id_user" => $id_user,
-            "id_plantation" => $id_plantation
-        ];
+        $sql = "
+            SELECT 
+                *
+            FROM `gardener_plantation`
+            WHERE
+                `id_user` = %d
+        ";
 
-        $this->database->delete(
-            'gardener_plantation',
-            $where
+        $rows = $this->executePreparedStatement(
+            $sql,
+            [
+                $id_user
+            ]
         );
 
-        return [
-            'status' => 'sucess',
-            'where'  => $where
-        ];
-        
+        $results = [];
+
+        foreach ($rows as $values) {
+            $results[] =  $values;
+        }
+        //var_dump($results);exit;
+        return $results;
     }
 
     public function update($id_user, $id_plante, $id_plantation, $calendarId, $title, $start, $end, $category, $color, $bgColor, $dragBgColor, $borderColor, $status = 1)
     {
-
         $datas = [
             'id_plante' => $id_plante,
             'status' => $status,
@@ -157,30 +157,21 @@ class GardenerPlantation
         ];
     }
 
-    public function getPlantationsByUserId($id_user)
+    public function delete($id_user, $id_plantation)
     {
-        $sql = "
-            SELECT 
-                *
-            FROM `gardener_plantation`
-            WHERE
-                `id_user` = %d
-        ";
+        $where = [
+            "id_user" => $id_user,
+            "id_plantation" => $id_plantation
+        ];
 
-        $rows = $this->executePreparedStatement(
-            $sql,
-            [
-                $id_user
-            ]
+        $this->database->delete(
+            'gardener_plantation',
+            $where
         );
 
-
-        $results = [];
-
-        foreach ($rows as $values) {
-            $results[] =  $values;
-        }
-        //var_dump($results);exit;
-        return $results;
+        return [
+            'status' => 'sucess',
+            'where'  => $where
+        ];
     }
 }
