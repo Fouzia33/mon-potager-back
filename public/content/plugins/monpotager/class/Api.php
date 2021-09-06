@@ -175,6 +175,15 @@ class Api
         $id_plantation = $request->get_param('id_plantation');
         $status = $request->get_param('status');
         $id_plante = $request->get_param('id_plante');
+        $calendarId = $request->get_param('calendarId');
+        $title = $request->get_param('title');
+        $start = $request->get_param('start');
+        $end = $request->get_param('end');
+        $category = $request->get_param('category');
+        $color = $request->get_param('color');
+        $bgColor = $request->get_param('bgColor');
+        $dragBgColor = $request->get_param('dragBgColor');
+        $borderColor = $request->get_param('dragBgColor');
 
         $user = wp_get_current_user();
         $id_user = $user->id;
@@ -182,22 +191,11 @@ class Api
         if (in_array('gardener', (array) $user->roles)) {
             $gardenerPlantation = new GardenerPlantation();
 
-            if (isset($status) && isset($id_plante)) {
-                $gardenerPlantation->update($id_user, $id_plantation, $id_plante, $status);
-            } elseif (isset($id_plante) && $status === null) {
-                $gardenerPlantation->update($id_user, $id_plantation, $id_plante);
-            } else {
-                $gardenerPlantation->update($id_user, $id_plantation, $status);
-            }
+            $result = $gardenerPlantation->update($id_user, $id_plante, $id_plantation, $calendarId, $title, $start, $end, $category, $color, $bgColor, $dragBgColor, $borderColor, $status);
 
-            return [
-            'status requête'=> 'sucess',
-            'id_user'       => $id_user,
-            'id_plantation' => $id_plantation,
-            'id_plante'     => $id_plante,
-
-            'status'        => $status
-        ];
+            return $result;
+            
+      
         }
     }
 

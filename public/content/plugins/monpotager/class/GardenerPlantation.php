@@ -108,13 +108,30 @@ class GardenerPlantation
         );
     }
 
-    public function update($id_user, $id_plantation, $id_plante, $status = 1)
+    public function update($id_user, $id_plante, $id_plantation, $calendarId, $title, $start, $end, $category, $color, $bgColor, $dragBgColor, $borderColor, $status = 1)
     {
-        $data = [
-            "id_plante" => $id_plante,
-            "status" => $status,
+
+        $datas = [
+            'id_plante' => $id_plante,
+            'status' => $status,
+            'calendarId' => $calendarId,
+            'title' => $title,
+            'start' => $start,
+            'end' => $end,
+            'category' => $category,
+            'color' => $color,
+            'bgColor' => $bgColor,
+            'dragBgColor' => $dragBgColor,
+            'borderColor' => $borderColor,
+    
             "updated_at" => date('Y-m-d H-i-s')
         ];
+
+        foreach($datas as $titleData => $value) {
+            if($value !== null) {
+                $dataSet [$titleData] = $value;  
+            }
+        }
 
         $where = [
             "id_user" => $id_user,
@@ -123,9 +140,15 @@ class GardenerPlantation
 
         $this->database->update(
             'gardener_plantation',
-            $data,
+            $dataSet,
             $where
         );
+
+        return [
+        'status_requete' => 'sucess',
+        'where' => $where,
+        'data' => $dataSet
+        ];
     }
 
     public function getPlantationsByUserId($id_user)
